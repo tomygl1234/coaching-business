@@ -1,0 +1,360 @@
+/*
+    Theme Name: Muktatma
+    Theme URI: 
+    Author: Miguel Wils
+    Author URI: 
+    Description: Theme Designed for Muktatma website
+    Version: 1.0
+    License: GNU General Public License v2 or later
+    License URI: http://www.gnu.org/licenses/gpl-2.0.html
+    Tags: personal, portfolio, consulting
+    Text Domain: muktatma
+*/
+:root {
+  /* FONTS */
+  --font-main: serif;
+  --font-headings: serif;
+
+  /* Colors */
+  --primary: #131313;
+  --secondary: #ffffff;
+  --accent: orange;
+  --accent-hover: #ca8000;
+  --gray-lt: #363636;
+  --font-size-base: 1.8rem;
+  --line-height-base: 2;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 5rem;
+  --spacing-xxl: 6rem;
+  --container-max-width: 120rem;
+  --container-padding: 2rem;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; /* 10px = 1rem */
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-size: 1.8rem;
+  line-height: 2;
+}
+/* Headings */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-headings);
+  margin: 0 0 5rem 0;
+  line-height: 1.2;
+}
+h1 {
+  font-size: 6rem;
+}
+h2 {
+  font-size: 4.8rem;
+}
+h3 {
+  font-size: 3.6rem;
+}
+h4 {
+  font-size: 2.4rem;
+}
+/* Media Queries para Tipografías */
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 5rem;
+  }
+  h2 {
+    font-size: 4rem;
+  }
+  h3 {
+    font-size: 3rem;
+  }
+  h4 {
+    font-size: 2.2rem;
+  }
+  body {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 3.2rem;
+  }
+  h3 {
+    font-size: 2.6rem;
+  }
+  h4 {
+    font-size: 2rem;
+  }
+  body {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 3.2rem;
+  }
+  h2 {
+    font-size: 2.8rem;
+  }
+  h3 {
+    font-size: 2.2rem;
+  }
+  h4 {
+    font-size: 1.8rem;
+  }
+  body {
+    font-size: 1.4rem;
+  }
+}
+
+/* Globals */
+hr {
+  border: 1px solid var(--primary);
+}
+p {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.featured-image {
+  margin-bottom: 3rem;
+}
+.content-center {
+  width: min(95%, 80rem);
+}
+.container {
+  width: min(95%, 120rem);
+  margin: 0 auto;
+}
+/* Utilities */
+.text-center {
+  text-align: center;
+}
+.text-primary {
+  color: var(--primary);
+}
+.text-white {
+  color: var(--secondary);
+}
+.section {
+  padding: 5rem 0;
+}
+/* buttons */
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: none;
+  background-color: var(--primary);
+  color: var(--secondary);
+  transition: background-color 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+@media (max-width: 768px){
+  .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
+.btn:hover {
+  background-color: var(--accent-hover);
+}
+
+/* header */
+.header {
+  background-color: var(--primary);
+  padding: 2rem 0;
+}
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (min-width: 1000px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.main-menu {
+  width: 100%;
+}
+
+.main-menu ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .main-menu ul {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
+.main-menu li {
+  position: relative;
+}
+
+.main-menu a {
+  font-family: var(--font-headings);
+  display: block;
+  text-align: center;
+  color: var(--secondary);
+  font-size: 2.2rem;
+  padding: 0.5rem 2rem;
+  transition: color var(--transition-normal);
+}
+
+.main-menu .current-menu-item > a {
+  color: var(--accent);
+}
+
+.main-menu a:hover {
+  color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .main-menu a {
+    position: relative;
+  }
+
+  .main-menu a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--transition-normal);
+  }
+
+  .main-menu a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .main-menu .current-menu-item > a::after {
+    transform: scaleX(1);
+  }
+}
+
+.logo {
+  font-size: 4rem;
+  font-weight: bold;
+  display: inline-block;
+  color: var(--secondary);
+  padding: 0.5rem 2rem;
+  border: 1px solid var(--secondary);
+  margin: 0;
+  white-space: nowrap;
+  transition: color var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+.logo:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Banner */
+.banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-position: center bottom;
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--secondary);
+  height: 50vh;
+}
+.banner-content {
+  color: white;
+  z-index: 2;
+}
+@media (max-width: 1000px){
+  .banner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .banner-title {
+    text-align: center;
+  }
+  .banner-content hr {
+    align-self: left;
+  }
+}
+.banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.banner-title {
+  width: 90%;
+}
+.banner-subtitle {
+  margin: 0;
+}
+.banner-content hr {
+  margin: -5px 0 1rem 0;
+  width: 5%;
+  border-bottom: 2px solid var(--accent);
+}
