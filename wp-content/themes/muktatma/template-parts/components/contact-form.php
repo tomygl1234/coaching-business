@@ -1,4 +1,8 @@
 <!-- Contact Form Component -->
+<?php
+$contact_phone = get_theme_mod('contact_phone', '+1235235598');
+$contact_email = get_theme_mod('contact_email', 'info@yoursite.com');
+?>
 <div class="contact-form-wrapper">
     <div class="contact-info">
         <h2>Let's get in touch</h2>
