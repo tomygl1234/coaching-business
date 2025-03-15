@@ -972,6 +972,7 @@ button:focus {
 }
 
 .contact-logo {
+  text-transform: capitalize;
   margin-bottom: 4rem;
   text-align: left;
 }

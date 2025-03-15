@@ -19,6 +19,13 @@ function muktatma_setup() {
         'gallery',
         'caption',
     ));
+    // Soporte para logo personalizado
+    add_theme_support('custom-logo', array(
+        'height'      => 100,
+        'width'       => 400,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ));
 }
 add_action('after_setup_theme', 'muktatma_setup');
 
@@ -107,6 +114,50 @@ function muktatma_contact_customizer_settings($wp_customize) {
         'priority' => 30,
     ));
 
+    // Show Logo Setting
+    $wp_customize->add_setting('contact_show_logo', array(
+        'default'           => true,
+        'sanitize_callback' => 'muktatma_sanitize_checkbox',
+    ));
+    $wp_customize->add_control('contact_show_logo', array(
+        'label'   => __('Mostrar logo en el formulario de contacto', 'muktatma'),
+        'section' => 'contact_info',
+        'type'    => 'checkbox',
+    ));
+
+    // Main Title Setting
+    $wp_customize->add_setting('contact_form_main_title', array(
+        'default'           => 'Let\'s get in touch',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_form_main_title', array(
+        'label'   => __('Título principal del formulario', 'muktatma'),
+        'section' => 'contact_info',
+        'type'    => 'text',
+    ));
+
+    // Description Setting
+    $wp_customize->add_setting('contact_form_description', array(
+        'default'           => 'We\'re open for any suggestion or just to have a chat',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_form_description', array(
+        'label'   => __('Descripción del formulario', 'muktatma'),
+        'section' => 'contact_info',
+        'type'    => 'textarea',
+    ));
+
+    // Form Title Setting
+    $wp_customize->add_setting('contact_form_form_title', array(
+        'default'           => 'Get in touch',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_form_form_title', array(
+        'label'   => __('Título del formulario de contacto', 'muktatma'),
+        'section' => 'contact_info',
+        'type'    => 'text',
+    ));
+
     // Address Setting
     $wp_customize->add_setting('contact_address', array(
         'default'           => '188 West 21th Street, Suite 721 New York NY 10016',
@@ -152,3 +203,10 @@ function muktatma_contact_customizer_settings($wp_customize) {
     ));
 }
 add_action('customize_register', 'muktatma_contact_customizer_settings');
+
+/**
+ * Sanitize checkbox values
+ */
+function muktatma_sanitize_checkbox($checked) {
+    return ((isset($checked) && true == $checked) ? true : false);
+}

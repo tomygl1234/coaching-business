@@ -20,7 +20,11 @@
         <div class="navbar container">
             <!-- Logo -->
             <div class="logo-container">
-                <a class="logo" href="<?php echo get_site_url(); ?>">Miguel Wils</a>
+                <?php if (has_custom_logo()): ?>
+                    <?php the_custom_logo(); ?>
+                <?php else: ?>
+                    <a class="logo" href="<?php echo get_site_url(); ?>"><?php bloginfo('name'); ?></a>
+                <?php endif; ?>
             </div>
             <!-- Botón de menú hamburguesa -->
             <div class="menu-toggle" aria-label="Toggle menu">

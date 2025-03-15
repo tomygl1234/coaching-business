@@ -2,7 +2,11 @@
     <div class="footer-content container">
         <div class="footer-widget">
             <div class="logo-container">
-                <a class="logo" href="<?php echo get_site_url(); ?>">Miguel Wils</a>
+                <?php if (has_custom_logo()): ?>
+                    <?php the_custom_logo(); ?>
+                <?php else: ?>
+                    <a class="logo" href="<?php echo get_site_url(); ?>"><?php bloginfo('name'); ?></a>
+                <?php endif; ?>
                 <p>Lorem ipsum dolor sit amet consectetur.</p>
                 <div class="social-links">
                     <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
