@@ -2,15 +2,22 @@
 <html <?php language_attributes(); ?>>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="<?php bloginfo('description'); ?>">
     <!-- Inserta automáticamente el nombre de la página -->
     <?php wp_head(); ?>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
+    <?php wp_body_open(); ?>
+    <a class="skip-link screen-reader-text" href="#content">
+        <?php esc_html_e('Saltar al contenido', 'muktatma'); ?>
+    </a>
+
     <header class="header">
-        <div class="container navbar">
+        <div class="navbar container">
             <!-- Logo -->
             <div class="logo-container">
                 <a class="logo" href="<?php echo get_site_url(); ?>">Miguel Wils</a>
@@ -32,5 +39,7 @@
             ?>
         </div>
     </header>
+
+    <main id="content" class="site-content">
 </body>
 </html>

@@ -14,6 +14,11 @@ get_header();
     get_template_part('template-parts/hero', 'banner');
     ?>
 </main>
+<section class="section-contact section">
+    <div class="container">
+        <?php get_template_part('template-parts/components/contact-form'); ?>
+    </div>
+</section>
 <?php
 get_footer();
 ?>
