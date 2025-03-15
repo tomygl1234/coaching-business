@@ -7,19 +7,17 @@ function muktatma_setup(){
     add_theme_support('title-tag');
 }
 add_action('after_setup_theme', 'muktatma_setup');
+
 // Menús
-// este código hace aparecer la opción de crear menus en wp cpanel y se pueden añadir más dentro del arreglo de registernavmenus
 function muktatma_menus()
 {
     register_nav_menus(array(
         'main-menu' => __('Main Menu', 'muktatma'),
     ));
 }
-// add_action es para agregar codigo
 add_action('init', 'muktatma_menus');
-// add_filter esto es para modificar la informacion	
 
-
+// Enqueue Scripts and Styles
 function muktatma_scripts_styles()
 {
     // Normalize CSS
@@ -27,6 +25,9 @@ function muktatma_scripts_styles()
     
     // Theme main stylesheet
     wp_enqueue_style('muktatma-style', get_stylesheet_uri(), array('normalize'), wp_get_theme()->get('Version'));
+    
+    // Enqueue navigation.js from the "js" folder
+    wp_enqueue_script('navigation-js', get_template_directory_uri() . '/js/navigation.js', array(), null, true); // true for footer
 }
 
 // Enqueue scripts and styles with priority 10

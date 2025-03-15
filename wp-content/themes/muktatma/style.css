@@ -198,11 +198,12 @@ img {
   background-color: var(--accent-hover);
 }
 
-/* header */
+/* Header */
 .header {
   background-color: var(--primary);
   padding: 2rem 0;
 }
+
 .navbar {
   display: flex;
   flex-direction: column;
@@ -219,6 +220,7 @@ img {
   }
 }
 
+/* Main Menu */
 .main-menu {
   width: 100%;
 }
@@ -288,6 +290,7 @@ img {
   }
 }
 
+/* Logo */
 .logo {
   font-size: 4rem;
   font-weight: bold;
@@ -304,6 +307,51 @@ img {
 .logo:hover {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+/* Menu Toggle (Hamburguesa) */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+}
+
+.menu-toggle span {
+  background-color: var(--secondary);
+  height: 4px;
+  width: 100%;
+}
+
+@media (max-width: 999px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .main-menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-menu.is-active {
+    display: flex;
+  }
+
+  .main-menu ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Logo dentro del menú cuando el menú hamburguesa está activo */
+  .main-menu.is-active .logo {
+    display: inline-block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 /* Banner */
