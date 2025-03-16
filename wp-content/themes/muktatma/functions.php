@@ -6,7 +6,8 @@ if (!defined('ABSPATH')) {
 /**
  * Incluir archivos de widgets personalizados
  */
-function muktatma_include_custom_widgets() {
+function muktatma_include_custom_widgets()
+{
     require_once get_template_directory() . '/inc/widgets/newsletter-widget.php';
     require_once get_template_directory() . '/inc/widgets/logo-social-widget.php';
     require_once get_template_directory() . '/inc/widgets/recent-posts-widget.php';
@@ -17,7 +18,8 @@ add_action('after_setup_theme', 'muktatma_include_custom_widgets');
 /**
  * Registrar widgets personalizados
  */
-function muktatma_register_widgets() {
+function muktatma_register_widgets()
+{
     register_widget('Muktatma_Newsletter_Widget');
     register_widget('Muktatma_Logo_Social_Widget');
     register_widget('Muktatma_Recent_Posts_Widget');
@@ -28,7 +30,8 @@ add_action('widgets_init', 'muktatma_register_widgets');
 /**
  * Registrar áreas de widgets
  */
-function muktatma_widgets_init() {
+function muktatma_widgets_init()
+{
     // Widget área 1 - Logo y redes sociales
     register_sidebar(array(
         'name'          => __('Footer Logo & Social', 'muktatma'),
@@ -78,7 +81,8 @@ add_action('widgets_init', 'muktatma_widgets_init');
 /**
  * Configuración principal del tema
  */
-function muktatma_setup() {
+function muktatma_setup()
+{
     // Soporte para imagen destacada
     add_theme_support('post-thumbnails');
     // Soporte para títulos SEO
@@ -104,7 +108,8 @@ add_action('after_setup_theme', 'muktatma_setup');
 /**
  * Registrar menús de navegación
  */
-function muktatma_menus() {
+function muktatma_menus()
+{
     register_nav_menus(array(
         'main-menu' => esc_html__('Main Menu', 'muktatma'),
         'footer-menu' => esc_html__('Footer Menu', 'muktatma'),
@@ -115,8 +120,9 @@ add_action('init', 'muktatma_menus');
 /**
  * Añadir clases personalizadas al menú del footer
  */
-function muktatma_footer_menu_classes($classes, $item, $args) {
-    if($args->theme_location === 'footer-menu') {
+function muktatma_footer_menu_classes($classes, $item, $args)
+{
+    if ($args->theme_location === 'footer-menu') {
         $classes[] = 'footer-menu-item';
     }
     return $classes;
@@ -126,8 +132,9 @@ add_filter('nav_menu_css_class', 'muktatma_footer_menu_classes', 10, 3);
 /**
  * Configurar clases para el contenedor del menú del footer
  */
-function muktatma_footer_menu_args($args) {
-    if($args['theme_location'] === 'footer-menu') {
+function muktatma_footer_menu_args($args)
+{
+    if ($args['theme_location'] === 'footer-menu') {
         $args['container'] = 'nav';
         $args['container_class'] = 'footer-menu';
         $args['menu_class'] = 'footer-menu-list';
@@ -139,17 +146,18 @@ add_filter('wp_nav_menu_args', 'muktatma_footer_menu_args');
 /**
  * Cargar scripts y estilos del tema
  */
-function muktatma_scripts_styles() {
+function muktatma_scripts_styles()
+{
     $theme_version = wp_get_theme()->get('Version');
 
     // Normalize CSS
     wp_enqueue_style(
-        'normalize', 
-        'https://necolas.github.io/normalize.css/8.0.1/normalize.css', 
-        array(), 
+        'normalize',
+        'https://necolas.github.io/normalize.css/8.0.1/normalize.css',
+        array(),
         '8.0.1'
     );
-    
+
     // Font Awesome
     wp_enqueue_style(
         'font-awesome',
@@ -157,21 +165,21 @@ function muktatma_scripts_styles() {
         array(),
         '5.15.4'
     );
-    
+
     // Estilo principal del tema
     wp_enqueue_style(
-        'muktatma-style', 
-        get_stylesheet_uri(), 
-        array('normalize', 'font-awesome'), 
+        'muktatma-style',
+        get_stylesheet_uri(),
+        array('normalize', 'font-awesome'),
         $theme_version
     );
-    
+
     // Script de navegación
     wp_enqueue_script(
-        'navigation-js', 
-        get_template_directory_uri() . '/js/navigation.js', 
-        array(), 
-        $theme_version, 
+        'navigation-js',
+        get_template_directory_uri() . '/js/navigation.js',
+        array(),
+        $theme_version,
         true
     );
 
@@ -190,7 +198,8 @@ add_action('wp_enqueue_scripts', 'muktatma_scripts_styles', 10);
 /**
  * Función de seguridad para sanitizar datos
  */
-function muktatma_sanitize_data($data) {
+function muktatma_sanitize_data($data)
+{
     if (is_array($data)) {
         foreach ($data as $key => $value) {
             $data[$key] = muktatma_sanitize_data($value);
@@ -202,17 +211,18 @@ function muktatma_sanitize_data($data) {
 }
 
 /**
-*Deshabilitar el editor de archivos en el panel de administración por seguridad
+ *Deshabilitar el editor de archivos en el panel de administración por seguridad
  
-*if (!defined('DISALLOW_FILE_EDIT')) {
-    *define('DISALLOW_FILE_EDIT', true);
-*}
-**/
+ *if (!defined('DISALLOW_FILE_EDIT')) {
+ *define('DISALLOW_FILE_EDIT', true);
+ *}
+ **/
 
 /**
  * Register Contact Form Customizer Settings
  */
-function muktatma_contact_customizer_settings($wp_customize) {
+function muktatma_contact_customizer_settings($wp_customize)
+{
     // Add Contact Information Section
     $wp_customize->add_section('contact_info', array(
         'title'    => __('Contact Information', 'muktatma'),
@@ -312,6 +322,155 @@ add_action('customize_register', 'muktatma_contact_customizer_settings');
 /**
  * Sanitize checkbox values
  */
-function muktatma_sanitize_checkbox($checked) {
+function muktatma_sanitize_checkbox($checked)
+{
     return ((isset($checked) && true == $checked) ? true : false);
 }
+function muktatma_enqueue_fonts()
+{
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;700&family=Raleway:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Poppins:wght@400;700&family=Noto+Sans:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Oswald:wght@400;700&family=PT+Sans:wght@400;700&family=Arvo:wght@400;700&family=Quicksand:wght@400;700&display=swap', false);
+}
+add_action('wp_enqueue_scripts', 'muktatma_enqueue_fonts');
+function muktatma_customize_register($wp_customize)
+{
+    // Sección para colores
+    $wp_customize->add_section('colors', array(
+        'title' => __('Colors', 'muktatma'),
+        'priority' => 30,
+    ));
+
+    // Sección para tipografía
+    $wp_customize->add_section('typography', array(
+        'title' => __('Typography', 'muktatma'),
+        'priority' => 40,
+    ));
+    // Configuración para el color primario
+    $wp_customize->add_setting('primary_color', array(
+        'default' => '#131313',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
+        'label' => __('Primary Color', 'muktatma'),
+        'section' => 'colors',
+        'settings' => 'primary_color',
+    )));
+
+    // Configuración para el color secundario
+    $wp_customize->add_setting('secondary_color', array(
+        'default' => '#ffffff',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'secondary_color_control', array(
+        'label' => __('Secondary Color', 'muktatma'),
+        'section' => 'colors',
+        'settings' => 'secondary_color',
+    )));
+
+    // Configuración para el color de acento
+    $wp_customize->add_setting('accent_color', array(
+        'default' => '#ffa500',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'accent_color_control', array(
+        'label' => __('Accent Color', 'muktatma'),
+        'section' => 'colors',
+        'settings' => 'accent_color',
+    )));
+
+    // Configuración para el color de acento hover
+    $wp_customize->add_setting('accent_hover_color', array(
+        'default' => '#ca8000',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'accent_hover_color_control', array(
+        'label' => __('Accent Hover Color', 'muktatma'),
+        'section' => 'colors',
+        'settings' => 'accent_hover_color',
+    )));
+
+    // Configuración para la opacidad del texto
+    $wp_customize->add_setting('text_opacity_color', array(
+        'default' => '#767676',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'text_opacity_color_control', array(
+        'label' => __('Text Opacity Color', 'muktatma'),
+        'section' => 'colors',
+        'settings' => 'text_opacity_color',
+    )));
+    // Sección para tipografía
+    $wp_customize->add_section('typography', array(
+        'title' => __('Typography', 'muktatma'),
+        'priority' => 40,
+    ));
+
+    // Configuración para la fuente principal
+    $wp_customize->add_setting('font_main', array(
+        'default' => 'serif',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('font_main_control', array(
+        'label' => __('Main Font', 'muktatma'),
+        'section' => 'typography',
+        'settings' => 'font_main',
+        'type' => 'select',
+        'choices' => array(
+            'serif' => __('Serif', 'muktatma'), // Asegúrate de que esta línea esté presente
+            'sans-serif' => __('Sans Serif', 'muktatma'),
+            'Roboto' => __('Roboto', 'muktatma'),
+            'Open Sans' => __('Open Sans', 'muktatma'),
+            'Lato' => __('Lato', 'muktatma'),
+            'Montserrat' => __('Montserrat', 'muktatma'),
+            'Merriweather' => __('Merriweather', 'muktatma'),
+            'Playfair Display' => __('Playfair Display', 'muktatma'),
+            'Raleway' => __('Raleway', 'muktatma'),
+            'Source Sans Pro' => __('Source Sans Pro', 'muktatma'),
+            'Poppins' => __('Poppins', 'muktatma'),
+            'Noto Sans' => __('Noto Sans', 'muktatma'),
+            'Libre Baskerville' => __('Libre Baskerville', 'muktatma'),
+            'Oswald' => __('Oswald', 'muktatma'),
+            'PT Sans' => __('PT Sans', 'muktatma'),
+            'Arvo' => __('Arvo', 'muktatma'),
+            'Quicksand' => __('Quicksand', 'muktatma'),
+        ),
+    ));
+
+    // Configuración para la fuente de los encabezados
+    $wp_customize->add_setting('font_headings', array(
+        'default' => 'serif',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('font_headings_control', array(
+        'label' => __('Headings Font', 'muktatma'),
+        'section' => 'typography',
+        'settings' => 'font_headings',
+        'type' => 'select',
+        'choices' => array(
+            'serif' => __('Serif', 'muktatma'), 
+            'sans-serif' => __('Sans Serif', 'muktatma'),
+            'Roboto' => __('Roboto', 'muktatma'),
+            'Open Sans' => __('Open Sans', 'muktatma'),
+            'Lato' => __('Lato', 'muktatma'),
+            'Montserrat' => __('Montserrat', 'muktatma'),
+            'Merriweather' => __('Merriweather', 'muktatma'),
+            'Playfair Display' => __('Playfair Display', 'muktatma'),
+            'Raleway' => __('Raleway', 'muktatma'),
+            'Source Sans Pro' => __('Source Sans Pro', 'muktatma'),
+            'Poppins' => __('Poppins', 'muktatma'),
+            'Noto Sans' => __('Noto Sans', 'muktatma'),
+            'Libre Baskerville' => __('Libre Baskerville', 'muktatma'),
+            'Oswald' => __('Oswald', 'muktatma'),
+            'PT Sans' => __('PT Sans', 'muktatma'),
+            'Arvo' => __('Arvo', 'muktatma'),
+            'Quicksand' => __('Quicksand', 'muktatma'),
+        ),
+    ));
+}
+add_action('customize_register', 'muktatma_customize_register');

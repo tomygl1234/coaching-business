@@ -8,6 +8,19 @@
     <meta name="description" content="<?php bloginfo('description'); ?>">
     <!-- Inserta automáticamente el nombre de la página -->
     <?php wp_head(); ?>
+    <style>
+        :root {
+            --primary: <?php echo get_theme_mod('primary_color', '#131313'); ?>;
+            --secondary: <?php echo get_theme_mod('secondary_color', '#ffffff'); ?>;
+            --accent: <?php echo get_theme_mod('accent_color', 'orange'); ?>;
+            --accent-hover: <?php echo get_theme_mod('accent_hover_color', '#ca8000'); ?>;
+            --text-opacity: <?php echo get_theme_mod('text_opacity_color', '#767676'); ?>;
+            --font-main: <?php echo get_theme_mod('font_main', 'serif'); ?>;
+            --font-headings: <?php echo get_theme_mod('font_headings', 'serif'); ?>;
+            --font-main: <?php echo get_theme_mod('font_main', 'serif'); ?>;
+            --font-headings: <?php echo get_theme_mod('font_headings', 'serif'); ?>;
+        }
+    </style>
 </head>
 
 <body <?php body_class(); ?>>
@@ -46,4 +59,5 @@
 
     <main id="content" class="site-content">
 </body>
+
 </html>

@@ -16,11 +16,6 @@
   --font-headings: serif;
 
   /* Colors */
-  --primary: #131313;
-  --secondary: #ffffff;
-  --accent: orange;
-  --accent-hover: #ca8000;
-  --gray-lt: #767676;
   --font-size-base: 1.8rem;
   --line-height-base: 2;
   --spacing-xs: 0.5rem;
@@ -139,9 +134,12 @@ hr {
 }
 p {
   margin: 0;
+  font-family: var(--font-main); /* Cambiar a la variable de fuente principal */
 }
+
 a {
   text-decoration: none;
+  font-family: var(--font-main); /* Cambiar a la variable de fuente principal */
 }
 ul {
   list-style: none;
@@ -679,7 +677,7 @@ img {
 
 .footer-post-date {
   font-size: 1.4rem;
-  color: var(--gray-lt);
+  color: var(--text-opacity);
   display: block;
 }
 
@@ -699,7 +697,7 @@ img {
 .footer-input {
   flex: 1;
   padding: 1.2rem;
-  border: 1px solid var(--gray-lt);
+  border: 1px solid var(--text-opacity);
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--secondary);
   font-size: 1.6rem;
@@ -949,7 +947,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #131313;
+  background-color: var(--primary);
   color: var(--secondary);
   padding: 4rem 3rem;
 }
