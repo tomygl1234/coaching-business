@@ -12,9 +12,6 @@
 */
 :root {
   /* FONTS */
-  --font-main: serif;
-  --font-headings: serif;
-
   /* Colors */
   --font-size-base: 1.8rem;
   --line-height-base: 2;
@@ -60,6 +57,7 @@ h4 {
   font-family: var(--font-headings);
   margin: 0 0 5rem 0;
   line-height: 1.2;
+  text-transform: capitalize;
 }
 h1 {
   font-size: 6rem;
@@ -164,6 +162,9 @@ img {
 /* Utilities */
 .text-center {
   text-align: center;
+}
+.text-justify{
+  text-align: justify;
 }
 .text-primary {
   color: var(--primary);
@@ -1358,4 +1359,72 @@ button:focus {
 .pagination .page-numbers:hover {
   background-color: var(--accent); /* Color al pasar el ratón */
   color: var(--secondary); /* Color del texto al pasar el ratón */
+}
+
+/* About Section */
+.about-section-title {
+  margin-bottom: 2rem;
+  text-align: center;
+
+}
+.about-section-description {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+/* Estilos para la sección de enfoque */
+.approach-section-title {
+  text-align: center;
+
+  margin-bottom: 2rem;
+  color: var(--primary); /* Color del título */
+}
+@media (min-width: 768px) {
+  .approach-section-title {
+    text-align: left;
+  }
+  .about-section-title{
+    text-align: left;
+  }
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -1rem; /* Espacio negativo para compensar el margen de las columnas */
+}
+
+.col {
+  flex: 1 1 calc(50% - 2rem); /* 4 columnas con espacio */
+  margin: 1rem; /* Espacio entre columnas */
+  min-width: 250px; /* Ancho mínimo para mantener la responsividad */
+}
+
+.card {
+  background-color: var(--primary); /* Color de fondo de la tarjeta */
+  color: #ffffff; /* Color del texto */
+  padding: 2rem;
+  box-shadow: var(--shadow-md); /* Sombra */
+  transition: transform 0.3s; /* Transición suave */
+  border: 2px solid var(--accent); /* Borde inferior */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Efecto de elevación al pasar el ratón */
+}
+
+.card h3 {
+  margin: 0.5rem 0;
+  font-size: 2.4rem; /* Tamaño del título de la tarjeta */
+}
+
+.card h4 {
+  margin: 0.5rem 0;
+  color: var(--accent); /* Color del subtítulo */
+  font-size: 1.8rem; /* Tamaño del subtítulo */
+}
+
+.card p {
+  font-size: 1.6rem; /* Tamaño del texto del párrafo */
+  line-height: 1.5; /* Espaciado entre líneas */
 }
