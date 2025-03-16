@@ -93,12 +93,15 @@ h4 {
 @media (max-width: 768px) {
   h1 {
     font-size: 4rem;
+    text-align: center;
   }
   h2 {
     font-size: 3.2rem;
+    text-align: center;
   }
   h3 {
     font-size: 2.6rem;
+    text-align: center;
   }
   h4 {
     font-size: 2rem;
@@ -134,7 +137,11 @@ p {
   margin: 0;
   font-family: var(--font-main); /* Cambiar a la variable de fuente principal */
 }
-
+@media (max-width: 768px) {
+  p {
+    text-align: justify;
+  }
+}
 a {
   text-decoration: none;
   font-family: var(--font-main); /* Cambiar a la variable de fuente principal */
@@ -163,7 +170,7 @@ img {
 .text-center {
   text-align: center;
 }
-.text-justify{
+.text-justify {
   text-align: justify;
 }
 .text-primary {
@@ -1365,7 +1372,6 @@ button:focus {
 .about-section-title {
   margin-bottom: 2rem;
   text-align: center;
-
 }
 .about-section-description {
   font-size: 1.8rem;
@@ -1383,7 +1389,7 @@ button:focus {
   .approach-section-title {
     text-align: left;
   }
-  .about-section-title{
+  .about-section-title {
     text-align: left;
   }
 }
@@ -1427,4 +1433,73 @@ button:focus {
 .card p {
   font-size: 1.6rem; /* Tamaño del texto del párrafo */
   line-height: 1.5; /* Espaciado entre líneas */
+}
+/* Method Section */
+.method-section-card-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  transition: transform 0.3s; /* Transición suave para el efecto de hover */
+}
+
+.method-section-card-list:hover {
+  transform: scale(1.02); /* Efecto de aumento al pasar el ratón */
+}
+
+@media (max-width: 768px) {
+  .method-section-card-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .method-section-card-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.method-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--primary); /* Color de fondo */
+  color: var(--secondary); /* Color del texto */
+  padding: 2rem; /* Espaciado interno */
+  border-radius: var(--border-radius-md); /* Bordes redondeados */
+  box-shadow: var(--shadow-md); /* Sombra */
+  margin: 2rem 0; /* Espacio arriba y abajo */
+}
+
+.method-section-title {
+  font-weight: bold; /* Negrita */
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1rem;
+}
+
+.method-section-description {
+  font-size: 1.6rem; /* Tamaño de la descripción */
+  margin-bottom: 1rem; /* Espacio debajo de la descripción */
+}
+
+.method-section p {
+  font-size: 1.4rem; /* Tamaño del párrafo */
+  line-height: 1.5; /* Espaciado entre líneas */
+  margin-bottom: 1rem; /* Espacio debajo del párrafo */
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1rem;
+}
+
+.method-section h4 {
+  font-size: 2rem; /* Tamaño del subtítulo */
+  margin-top: 1.5rem; /* Espacio arriba del subtítulo */
+  margin-bottom: 0.5rem; /* Espacio debajo del subtítulo */
+}
+
+.method-section ul {
+  list-style-type: disc; /* Estilo de lista */
+  padding-left: 1.5rem; /* Espacio a la izquierda */
+}
+
+.method-section li {
+  font-size: 1.4rem; /* Tamaño de los elementos de la lista */
+  margin-bottom: 0.5rem; /* Espacio entre elementos de la lista */
 }

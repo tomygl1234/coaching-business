@@ -61,6 +61,65 @@ get_header();
     </section>
     <!-- End Approach Section -->
 
+    <!-- Cocreation adaptative intelligence Section -->
+    <section class="section">
+        <div class="container">
+            <div class="">
+                <h2 class="">My Method</h2>
+                <p class="method-section-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo. Aliquam arcu est, efficitur at elementum suscipit, molestie a risus. Ut fermentum lectus quis tellus porta, sed volutpat augue maximus. Donec quis cursus quam. Duis facilisis massa nec neque consequat, eget vulputate orci suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum rutrum felis augue, quis lobortis risus fringilla id. Morbi sagittis et mi sed rutrum. Sed risus ex, gravida fringilla interdum mollis, malesuada in erat. Ut ac turpis eu neque tristique fermentum. Quisque varius, eros nec varius ultricies, lorem sem aliquam turpis, sed efficitur augue sapien non arcu. Quisque ac risus et mi porttitor iaculis id ac felis. </p>
+            </div>
+            <div class="method-section-card-list">
+                <div class="method-section">
+                    <h3 class="method-section-title">Initial Assessment</h3>
+                    <p class="method-section-description">Deep conversations to explore vision and areas for improvement.</p>
+                    <p>Our approach begins with thorough discussions that help identify challenges and define growth opportunities, ensuring we understand your needs from within.</p>
+                    <h4>Enhancements</h4>
+                    <ul>
+                        <li>Customization</li>
+                        <li>Depth</li>
+                        <li>Growth</li>
+                    </ul>
+                </div>
+
+                <div class="method-section">
+                    <h3 class="method-section-title">Adaptive Intelligence Training</h3>
+                    <p class="method-section-description">Equipping individuals with skills for calmness and ingenuity.</p>
+                    <p>We equip individuals with the necessary tools to remain calm under pressure, adapt to changes, and innovate in challenging situations.</p>
+                    <h4>Enhancements</h4>
+                    <ul>
+                        <li>Resilience</li>
+                        <li>Leadership</li>
+                        <li>Adaptability</li>
+                    </ul>
+                </div>
+
+                <div class="method-section">
+                    <h3 class="method-section-title">Collaborative Exploration</h3>
+                    <p class="method-section-description">Dialogues to explore solutions together.</p>
+                    <p>Through collaborative brainstorming and idea exchange, we work together to uncover the best solutions, fostering creativity and innovation from all perspectives.</p>
+                    <h4>Enhancements</h4>
+                    <ul>
+                        <li>Collaboration</li>
+                        <li>Creativity</li>
+                        <li>Innovation</li>
+                    </ul>
+                </div>
+
+                <div class="method-section">
+                    <h3 class="method-section-title">Prototyping</h3>
+                    <p class="method-section-description">Iterative testing and refinement of customized approaches.</p>
+                    <p>We rapidly prototype ideas, testing them in real scenarios, gathering feedback, and refining the approach to ensure effectiveness and adaptability.</p>
+                    <h4>Enhancements</h4>
+                    <ul>
+                        <li>Innovation</li>
+                        <li>Efficiency</li>
+                        <li>Refinement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Cocreation adaptative intelligence Section -->
 </main>
 <section class="section-contact section">
     <div class="container">
