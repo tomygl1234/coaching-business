@@ -481,7 +481,28 @@ function muktatma_custom_excerpt_more($more)
 }
 add_filter('excerpt_more', 'muktatma_custom_excerpt_more');
 
-function muktatma_custom_excerpt_length($length) {
+function muktatma_custom_excerpt_length($length)
+{
     return 30; // Cambia 30 por la cantidad de palabras que desees
 }
 add_filter('excerpt_length', 'muktatma_custom_excerpt_length');
+
+// functions.php
+function create_custom_post_type()
+{
+    register_post_type(
+        'approach',
+        array(
+            'labels' => array(
+                'name' => __('Approaches'),
+                'singular_name' => __('Approach')
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'supports' => array('title', 'editor', 'thumbnail'),
+            'rewrite' => array('slug' => 'approaches'),
+            'show_in_rest' => true, // Para usar el editor de bloques
+        )
+    );
+}
+add_action('init', 'create_custom_post_type');
