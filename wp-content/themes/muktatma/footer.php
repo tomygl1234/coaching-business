@@ -20,8 +20,8 @@
     <hr class="footer-divider">
 
     <div class="copyright container">
-        <p><?php echo "© " . date('Y') . " " . get_bloginfo('name') . ". Todos los derechos reservados."; ?></p>
-        <p>Desarrollado por <a href="https://www.linkedin.com/in/tomas-francisco-gimenez-lascano/" target="_blank" rel="noopener noreferrer">Tomás Francisco Full Stack Developer</a></p>
+        <p><?php echo "© " . date('Y') . " " . get_bloginfo('name') . ". All rights reserved."; ?></p>
+        <p>Developed by <a href="https://www.linkedin.com/in/tomas-francisco-gimenez-lascano/" target="_blank" rel="noopener noreferrer">Tomás Francisco Full Stack Developer</a></p>
     </div>
 </footer>
 

@@ -20,7 +20,7 @@
   --secondary: #ffffff;
   --accent: orange;
   --accent-hover: #ca8000;
-  --gray-lt: #363636;
+  --gray-lt: #767676;
   --font-size-base: 1.8rem;
   --line-height-base: 2;
   --spacing-xs: 0.5rem;
@@ -592,7 +592,7 @@ img {
 }
 
 .footer-menu a {
-  color: var(--gray-lt);
+  color: var(--secondary);
   font-size: 1.6rem;
   padding: 0.4rem 0;
   display: inline-flex;
@@ -612,10 +612,7 @@ img {
   transition: width var(--transition-normal);
 }
 
-.footer-menu a:hover {
-  color: var(--secondary);
-  padding-left: 0.5rem;
-}
+
 
 .footer-menu a:hover::after {
   width: 100%;

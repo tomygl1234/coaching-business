@@ -88,16 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-            // Scroll Down
-            header.classList.remove('scroll-up');
-            header.classList.add('scroll-down');
-        } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-            // Scroll Up
-            header.classList.remove('scroll-down');
-            header.classList.add('scroll-up');
-        }
-        
         lastScroll = currentScroll;
     });
 
