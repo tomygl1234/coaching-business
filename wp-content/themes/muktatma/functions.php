@@ -453,7 +453,7 @@ function muktatma_customize_register($wp_customize)
         'settings' => 'font_headings',
         'type' => 'select',
         'choices' => array(
-            'serif' => __('Serif', 'muktatma'), 
+            'serif' => __('Serif', 'muktatma'),
             'sans-serif' => __('Sans Serif', 'muktatma'),
             'Roboto' => __('Roboto', 'muktatma'),
             'Open Sans' => __('Open Sans', 'muktatma'),
@@ -474,3 +474,14 @@ function muktatma_customize_register($wp_customize)
     ));
 }
 add_action('customize_register', 'muktatma_customize_register');
+
+function muktatma_custom_excerpt_more($more)
+{
+    return '</br>' . ' ...'; // Cambia el texto a "..."
+}
+add_filter('excerpt_more', 'muktatma_custom_excerpt_more');
+
+function muktatma_custom_excerpt_length($length) {
+    return 30; // Cambia 30 por la cantidad de palabras que desees
+}
+add_filter('excerpt_length', 'muktatma_custom_excerpt_length');

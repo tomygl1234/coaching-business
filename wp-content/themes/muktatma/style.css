@@ -1,7 +1,7 @@
 /*
     Theme Name: Muktatma
     Theme URI: 
-    Author: Miguel Wils
+    Author: Tomás Francisco Giménez Lascano
     Author URI: 
     Description: Theme Designed for Muktatma website
     Version: 1.0
@@ -610,8 +610,6 @@ img {
   transition: width var(--transition-normal);
 }
 
-
-
 .footer-menu a:hover::after {
   width: 100%;
 }
@@ -1105,7 +1103,7 @@ button:focus {
   }
 
   .contact-description::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -1173,4 +1171,191 @@ button:focus {
   .contact-logo .logo {
     font-size: 2rem;
   }
+}
+
+/* blog */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; /* Espacio entre las tarjetas */
+  margin: 0 auto;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: var(--secondary);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+.blog-image {
+  margin-bottom: 1rem;
+}
+.blog-title {
+  font-size: 1.8rem;
+  margin-bottom: 0;
+}
+
+.blog-meta {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  color: var(--text-opacity);
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tabletas */
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr; /* 1 columna en móviles */
+  }
+}
+.sidebar {
+  background-color: var(--secondary);
+  padding: 1.5rem;
+  margin-top: 2rem; /* Espacio encima del sidebar */
+}
+
+.sidebar h2 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--accent);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+.post-content-wrapper {
+  display: flex; /* Usar flexbox para alinear el contenido y el sidebar */
+  gap: 2rem; /* Espacio entre el contenido y el sidebar */
+}
+
+.single-post-content {
+  flex: 1; /* Permitir que el contenido ocupe el espacio restante */
+  border-bottom: 2px solid var(--accent);
+}
+
+.recent-post {
+  display: flex; /* Usar flexbox para alinear la imagen y la información */
+  margin-bottom: 1rem; /* Espacio entre los posts */
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--accent);
+}
+
+.recent-post-thumbnail {
+  flex-shrink: 0; /* Evitar que la imagen se reduzca */
+  margin-right: 1rem; /* Espacio entre la imagen y la información */
+}
+
+.recent-post-thumbnail img {
+  width: 80px; /* Ancho de la imagen */
+  height: auto; /* Mantener la proporción */
+}
+
+.recent-post-info {
+  flex-grow: 1; /* Permitir que la información ocupe el espacio restante */
+}
+
+.recent-post-info .post-meta {
+  font-size: 1.5rem; /* Tamaño de la meta información */
+  color: var(--text-opacity); /* Color de la meta información */
+}
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.author {
+  color: var(--accent);
+  text-transform: capitalize;
+}
+@media (max-width: 768px) {
+  .post-content-wrapper {
+    flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+  }
+
+  .single-post-content {
+    order: 1; /* Asegurarse de que el contenido principal esté primero */
+  }
+
+  .sidebar {
+    order: 2; /* Asegurarse de que el sidebar esté debajo */
+    width: 100%; /* Asegurarse de que el sidebar ocupe todo el ancho */
+    margin-top: 1rem; /* Espacio encima del sidebar */
+  }
+}
+.post-meta {
+  margin-top: 2rem; /* Espacio encima de las categorías y etiquetas */
+  font-size: 1.4rem; /* Tamaño de fuente */
+  color: var(--text-opacity); /* Color de texto */
+}
+
+.post-categories,
+.post-tags {
+  margin-bottom: 1rem; /* Espacio entre categorías y etiquetas */
+}
+
+.post-categories strong,
+.post-tags strong {
+  color: var(--primary); /* Color del texto de los títulos */
+  font-weight: bold; /* Negrita para los títulos */
+}
+
+.post-categories a,
+.post-tags a {
+  color: var(--text-opacity); /* Color de los enlaces */
+  text-decoration: none; /* Sin subrayado */
+  transition: color var(--transition-normal); /* Transición suave */
+}
+
+.post-categories a:hover,
+.post-tags a:hover {
+  color: var(--accent-hover); /* Color al pasar el ratón */
+  text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+.pagination {
+  display: flex;
+  justify-content: center; /* Centrar la paginación */
+  margin: 2rem 0; /* Espacio arriba y abajo */
+}
+
+.pagination .page-numbers {
+  margin: 0 0.5rem; /* Espacio entre los números de página */
+  padding: 0.5rem 1rem; /* Espaciado interno */
+  background-color: var(--secondary); /* Color de fondo */
+  color: var(--primary); /* Color del texto */
+  border-radius: var(--border-radius-md); /* Bordes redondeados */
+}
+
+.pagination .page-numbers:hover {
+  background-color: var(--accent); /* Color al pasar el ratón */
+  color: var(--secondary); /* Color del texto al pasar el ratón */
 }
