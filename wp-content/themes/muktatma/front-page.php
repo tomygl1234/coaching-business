@@ -64,62 +64,93 @@ get_header();
     <!-- Cocreation adaptative intelligence Section -->
     <section class="section">
         <div class="container">
-            <div class="">
-                <h2 class="">My Method</h2>
-                <p class="method-section-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo. Aliquam arcu est, efficitur at elementum suscipit, molestie a risus. Ut fermentum lectus quis tellus porta, sed volutpat augue maximus. Donec quis cursus quam. Duis facilisis massa nec neque consequat, eget vulputate orci suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum rutrum felis augue, quis lobortis risus fringilla id. Morbi sagittis et mi sed rutrum. Sed risus ex, gravida fringilla interdum mollis, malesuada in erat. Ut ac turpis eu neque tristique fermentum. Quisque varius, eros nec varius ultricies, lorem sem aliquam turpis, sed efficitur augue sapien non arcu. Quisque ac risus et mi porttitor iaculis id ac felis. </p>
-            </div>
+            <h2 class="method-section-h2">My Method</h2>
+            <p class="method-section-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo.</p>
             <div class="method-section-card-list">
-                <div class="method-section">
-                    <h3 class="method-section-title">Initial Assessment</h3>
-                    <p class="method-section-description">Deep conversations to explore vision and areas for improvement.</p>
-                    <p>Our approach begins with thorough discussions that help identify challenges and define growth opportunities, ensuring we understand your needs from within.</p>
-                    <h4>Enhancements</h4>
-                    <ul>
-                        <li>Customization</li>
-                        <li>Depth</li>
-                        <li>Growth</li>
+                <?php
+                $args = array(
+                    'post_type' => 'method_card',
+                    'posts_per_page' => -1, // Muestra todos los posts
+                );
+                $method_query = new WP_Query($args);
+
+                if ($method_query->have_posts()) :
+                    while ($method_query->have_posts()) : $method_query->the_post(); ?>
+                        <div class="method-section">
+                            <h3 class="method-section-title"><?php the_title(); ?></h3>
+                            <p class="method-section-description"><?php the_field('method_card_subtitle'); ?></p> <!-- Campo personalizado para el subtítulo -->
+                            <p><?php the_field('method_card_description'); ?></p>
+                            <h4>Enhancements</h4>
+                            <ul>
+                                <li><?php the_field('method_card_enhancement'); ?></li>
+                                <li><?php the_field('method_card_enhancement_2'); ?></li>
+                                <li><?php the_field('method_card_enhancement_3'); ?></li>
+                            </ul>
+                        </div>
+                    <?php endwhile;
+                    wp_reset_postdata();
+                else : ?>
+                    <p>No methods found.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+    <section class="section commitment-section">
+        <div class="container">
+            <h2>Mis Servicios</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo.</p>
+
+            <div class="coaching-cards-container" style="display: grid; grid-template-columns: repeat(1, 1fr);">
+                <div class="coaching-card card">
+                    <h3>Coaching de Vida</h3>
+                    <ul class="feature-list">
+                        <li>Obtén claridad sobre el propósito de tu vida</li>
+                        <li>Desarrolla confianza y autoconciencia</li>
+                        <li>Supera barreras mentales y emocionales</li>
+                        <li>Mejora relaciones y crecimiento personal</li>
                     </ul>
+                    <p>Desbloquea tu verdadero potencial y alcanza la realización personal. Nuestro programa de Coaching de Vida te ayuda a superar obstáculos, establecer metas significativas y crear una vida equilibrada y con propósito.</p>
+                    <a href="#contact" class="btn btn-secondary">Contáctame</a>
                 </div>
 
-                <div class="method-section">
-                    <h3 class="method-section-title">Adaptive Intelligence Training</h3>
-                    <p class="method-section-description">Equipping individuals with skills for calmness and ingenuity.</p>
-                    <p>We equip individuals with the necessary tools to remain calm under pressure, adapt to changes, and innovate in challenging situations.</p>
-                    <h4>Enhancements</h4>
-                    <ul>
-                        <li>Resilience</li>
-                        <li>Leadership</li>
-                        <li>Adaptability</li>
+                <div class="coaching-card card">
+                    <h3>Coaching Ejecutivo</h3>
+                    <ul class="feature-list">
+                        <li>Fortalece habilidades de liderazgo y comunicación</li>
+                        <li>Mejora la toma de decisiones bajo presión</li>
+                        <li>Aumenta la productividad y gestión del tiempo</li>
+                        <li>Domina la negociación y resolución de conflictos</li>
                     </ul>
+                    <p>Mejora tus habilidades de liderazgo e impulsa el éxito empresarial. Nuestro programa de Coaching Ejecutivo está diseñado para profesionales que desean refinar su pensamiento estratégico, toma de decisiones y liderazgo de equipo.</p>
+                    <a href="#contact" class="btn btn-secondary">Contáctame</a>
                 </div>
 
-                <div class="method-section">
-                    <h3 class="method-section-title">Collaborative Exploration</h3>
-                    <p class="method-section-description">Dialogues to explore solutions together.</p>
-                    <p>Through collaborative brainstorming and idea exchange, we work together to uncover the best solutions, fostering creativity and innovation from all perspectives.</p>
-                    <h4>Enhancements</h4>
-                    <ul>
-                        <li>Collaboration</li>
-                        <li>Creativity</li>
-                        <li>Innovation</li>
+                <div class="coaching-card card">
+                    <h3>Coaching para Organizaciones Sin Fines de Lucro</h3>
+                    <ul class="feature-list">
+                        <li>Desarrolla estrategias efectivas para el impacto social</li>
+                        <li>Fortalece la colaboración y el trabajo en equipo</li>
+                        <li>Mejora la sostenibilidad y la gestión de recursos</li>
+                        <li>Impulsa la misión y visión de tu organización</li>
                     </ul>
+                    <p>Ayudamos a las organizaciones sin fines de lucro a maximizar su impacto social a través de un coaching adaptado a sus necesidades específicas.</p>
+                    <a href="#contact" class="btn btn-secondary">Contáctame</a>
                 </div>
+            </div>
 
-                <div class="method-section">
-                    <h3 class="method-section-title">Prototyping</h3>
-                    <p class="method-section-description">Iterative testing and refinement of customized approaches.</p>
-                    <p>We rapidly prototype ideas, testing them in real scenarios, gathering feedback, and refining the approach to ensure effectiveness and adaptability.</p>
-                    <h4>Enhancements</h4>
-                    <ul>
-                        <li>Innovation</li>
-                        <li>Efficiency</li>
-                        <li>Refinement</li>
-                    </ul>
-                </div>
+            <div class="payment-section">
+                <h4>Opciones de Pago</h4>
+                <p>El pago se realiza de la siguiente manera:</p>
+                <ul>
+                    <li>25% al inicio del programa</li>
+                    <li>25% a la mitad del tramo</li>
+                    <li>50% al final del programa</li>
+                </ul>
             </div>
         </div>
     </section>
     <!-- End Cocreation adaptative intelligence Section -->
+    <?php get_template_part('template-parts/components/faqs'); ?>
 </main>
 <section class="section-contact section">
     <div class="container">

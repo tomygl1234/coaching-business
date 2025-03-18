@@ -504,7 +504,19 @@ function create_custom_post_type()
             'show_in_rest' => true, // Para usar el editor de bloques
         )
     );
+    register_post_type(
+        'method_card',
+        array(
+            'labels' => array(
+                'name' => __('Method Cards'),
+                'singular_name' => __('Method Card')
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'supports' => array('title', 'editor', 'thumbnail'), // Soporta título, contenido y miniatura
+            'rewrite' => array('slug' => 'method-cards'), // Slug para la URL
+            'show_in_rest' => true, // Para usar el editor de bloques
+        )
+    );
 }
 add_action('init', 'create_custom_post_type');
-
-

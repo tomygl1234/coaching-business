@@ -59,6 +59,9 @@ h4 {
   line-height: 1.2;
   text-transform: capitalize;
 }
+h2 {
+  margin-bottom: 2rem;
+}
 h1 {
   font-size: 6rem;
 }
@@ -1438,14 +1441,20 @@ button:focus {
 .method-section-card-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+
   gap: 2rem;
+}
+.method-section {
   transition: transform 0.3s; /* Transición suave para el efecto de hover */
 }
-
-.method-section-card-list:hover {
+.method-section:hover {
   transform: scale(1.02); /* Efecto de aumento al pasar el ratón */
 }
-
+@media (max-width: 980px) {
+  .method-section-card-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 @media (max-width: 768px) {
   .method-section-card-list {
     grid-template-columns: repeat(2, 1fr);
@@ -1463,11 +1472,10 @@ button:focus {
   background-color: var(--primary); /* Color de fondo */
   color: var(--secondary); /* Color del texto */
   padding: 2rem; /* Espaciado interno */
-  border-radius: var(--border-radius-md); /* Bordes redondeados */
-  box-shadow: var(--shadow-md); /* Sombra */
-  margin: 2rem 0; /* Espacio arriba y abajo */
 }
-
+.method-section-h2 {
+  margin-bottom: 2rem;
+}
 .method-section-title {
   font-weight: bold; /* Negrita */
   margin-bottom: 1rem;
@@ -1502,4 +1510,51 @@ button:focus {
 .method-section li {
   font-size: 1.4rem; /* Tamaño de los elementos de la lista */
   margin-bottom: 0.5rem; /* Espacio entre elementos de la lista */
+}
+
+/* FAQ Section
+----------------------------------------*/
+.faqs-section details {
+  background: var(--primary);
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+}
+
+.faqs-section summary {
+  font-size: 18px;
+  position: relative;
+  padding-bottom: var(--spacing-sm);
+  list-style: none;
+  color: var(--secondary);
+}
+
+.faqs-section summary::after {
+  content: "+";
+  position: absolute;
+  right: var(--spacing-sm);
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.faqs-section details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faqs-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.faqs-section .divider {
+  width: 10rem;
+  height: 1px;
+  background: var(--color-secondary);
+  margin-top: 5px;
+}
+
+.faqs-section .content {
+  padding-top: var(--spacing-sm);
+  font-size: 16px;
+  color: var(--secondary);
 }
