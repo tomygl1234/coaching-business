@@ -65,7 +65,6 @@ get_header();
     <section class="section">
         <div class="container">
             <h2 class="method-section-h2">My Method</h2>
-            <p class="method-section-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo.</p>
             <div class="method-section-card-list">
                 <?php
                 $args = array(
@@ -98,53 +97,52 @@ get_header();
     <section class="section commitment-section">
         <div class="container">
             <h2>Mis Servicios</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo.</p>
 
             <div class="coaching-cards-container">
-                <div class="coaching-card card">
-                    <h3>Coaching de Vida</h3>
-                    <ul class="feature-list">
-                        <li>Obtén claridad sobre el propósito de tu vida</li>
-                        <li>Desarrolla confianza y autoconciencia</li>
-                        <li>Supera barreras mentales y emocionales</li>
-                        <li>Mejora relaciones y crecimiento personal</li>
-                    </ul>
-                    <p>Desbloquea tu verdadero potencial y alcanza la realización personal. Nuestro programa de Coaching de Vida te ayuda a superar obstáculos, establecer metas significativas y crear una vida equilibrada y con propósito.</p>
-                    <a href="#contact" class="btn btn-secondary">Contáctame</a>
-                </div>
+                <?php
+                $args = array(
+                    'post_type' => 'my_services', // Cambiar a tu custom post type
+                    'posts_per_page' => -1, // Muestra todos los posts
+                );
+                $services_query = new WP_Query($args);
 
-                <div class="coaching-card card">
-                    <h3>Coaching Ejecutivo</h3>
-                    <ul class="feature-list">
-                        <li>Fortalece habilidades de liderazgo y comunicación</li>
-                        <li>Mejora la toma de decisiones bajo presión</li>
-                        <li>Aumenta la productividad y gestión del tiempo</li>
-                        <li>Domina la negociación y resolución de conflictos</li>
-                    </ul>
-                    <p>Mejora tus habilidades de liderazgo e impulsa el éxito empresarial. Nuestro programa de Coaching Ejecutivo está diseñado para profesionales que desean refinar su pensamiento estratégico, toma de decisiones y liderazgo de equipo.</p>
-                    <a href="#contact" class="btn btn-secondary">Contáctame</a>
-                </div>
-
-                <div class="coaching-card card">
-                    <h3>Coaching para Organizaciones Sin Fines de Lucro</h3>
-                    <ul class="feature-list">
-                        <li>Desarrolla estrategias efectivas para el impacto social</li>
-                        <li>Fortalece la colaboración y el trabajo en equipo</li>
-                        <li>Mejora la sostenibilidad y la gestión de recursos</li>
-                        <li>Impulsa la misión y visión de tu organización</li>
-                    </ul>
-                    <p>Ayudamos a las organizaciones sin fines de lucro a maximizar su impacto social a través de un coaching adaptado a sus necesidades específicas.</p>
-                    <a href="#contact" class="btn btn-secondary">Contáctame</a>
-                </div>
+                if ($services_query->have_posts()) :
+                    while ($services_query->have_posts()) : $services_query->the_post(); ?>
+                        <div class="coaching-card card">
+                            <h3><?php the_title(); ?></h3>
+                            <p><?php the_content(); ?></p>
+                            <a href="#contact" class="btn btn-secondary">Contáctame</a>
+                        </div>
+                    <?php endwhile;
+                    wp_reset_postdata();
+                else : ?>
+                    <p>No hay servicios disponibles.</p>
+                <?php endif; ?>
             </div>
-
             <div class="payment-section">
-                <h4>Opciones de Pago</h4>
-                <p>El pago se realiza de la siguiente manera:</p>
+                <h4><?php the_field('payment_section_title'); ?></h4>
+                <p><?php the_field('payment_subtitle_or_brief_description'); ?></p>
                 <ul>
-                    <li>25% al inicio del programa</li>
-                    <li>25% a la mitad del tramo</li>
-                    <li>50% al final del programa</li>
+                    <?php
+                    $args = array(
+                        'post_type' => 'payment_option',
+                        'posts_per_page' => -1,
+                    );
+                    $payment_options = new WP_Query($args);
+                    if ($payment_options->have_posts()) :
+                        while ($payment_options->have_posts()) : $payment_options->the_post(); ?>
+                            <li>
+                                <p><?php the_title(); ?></p>
+                                <p><span><?php the_field('payment_section_percent_quantity_or_prices'); ?></span></p>
+                                <p><?php the_content(); ?></p>
+                            </li>
+                        <?php endwhile;
+                        wp_reset_postdata();
+                    else : ?>
+                        <li>
+                            <p>No hay opciones de pago disponibles.</p>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

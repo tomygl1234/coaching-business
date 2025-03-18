@@ -22,6 +22,10 @@
                     </div>
                     <div class="recent-post-info">
                         <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        <div class="side-bar__content-resposive">
+
+                            <p><?php the_excerpt(); ?></p>
+                        </div>
                         <div class="post-meta">
                             <p>By: <span class="author capitalize"><?php the_author(); ?></span></p>
 

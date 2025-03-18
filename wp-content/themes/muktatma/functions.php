@@ -518,6 +518,34 @@ function create_custom_post_type()
             'show_in_rest' => true, // Para usar el editor de bloques
         )
     );
+    register_post_type(
+        'payment_option',
+        array(
+            'labels' => array(
+                'name' => __('Payment Options'),
+                'singular_name' => __('Payment Option')
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'supports' => array('title', 'editor'),
+            'rewrite' => array('slug' => 'payment-options'),
+        )
+    );
+    register_post_type(
+        'my_services',
+        array(
+            'labels' => array(
+                'name' => __('My Services'),
+                'singular_name' => __('My Service')
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'supports' => array('title', 'editor', 'thumbnail'), // Soporta título, contenido y miniatura
+            'rewrite' => array('slug' => 'my-services'), // Slug para la URL
+            'show_in_rest' => true, // Para usar el editor de bloques
+        )
+    );
+    
 }
 add_action('init', 'create_custom_post_type');
 function registrar_post_type_faq()

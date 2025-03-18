@@ -60,7 +60,7 @@ h4 {
   line-height: 1.2;
   text-transform: capitalize;
 }
-h2 {
+h2,h3,h4,h5,h6 {
   margin-bottom: 2rem;
 }
 h1 {
@@ -138,7 +138,7 @@ hr {
   border: 1px solid var(--primary);
 }
 p {
-  margin: 0;
+  margin: 2rem 0;
   font-family: var(--font-main); /* Cambiar a la variable de fuente principal */
 }
 @media (max-width: 768px) {
@@ -1295,6 +1295,14 @@ button:focus {
 .recent-post-info {
   flex-grow: 1; /* Permitir que la información ocupe el espacio restante */
 }
+.side-bar__content-resposive{
+  display: none;
+}
+@media (max-width: 768px) {
+  .side-bar__content-resposive{
+    display:block;
+  }
+}
 
 .recent-post-info .post-meta {
   font-size: 1.5rem; /* Tamaño de la meta información */
@@ -1304,6 +1312,7 @@ button:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 .author {
   color: var(--accent);
@@ -1534,15 +1543,59 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: start;
   background-color: var(--primary);
   color: var(--secondary);
   padding: 2rem;
   border: 2px solid var(--accent);
 }
+.coaching-card h3 {
+  color: var(--accent);
+}
 .coaching-card .btn {
   text-align: center;
 }
+.payment-section {
+  margin-top: 2rem;
+  background-color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+.payment-section h4 {
+  color: var(--accent);
+}
+.payment-section p {
+  color: var(--secondary);
+}
+.payment-section p span {
+  color: var(--accent);
+}
+.payment-section ul {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem; /* Espacio entre los elementos de la lista */
+}
 
+@media (min-width: 768px) {
+  .payment-section ul {
+    flex-direction: row;
+    justify-content: space-between;
+  text-align: center;
+
+  }
+}
+.payment-section ul li {
+  border: 2px solid var(--accent);
+  text-align: center;
+  padding: 1rem;
+}
 /* FAQ Section
 ----------------------------------------*/
 .faqs-section details {

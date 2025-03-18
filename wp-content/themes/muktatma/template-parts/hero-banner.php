@@ -7,5 +7,4 @@
             <hr>
             <a href="<?php echo get_field('hero_banner_btn_url')?>" class="btn btn-primary"><?php echo get_query_var('button'); ?></a>
         </div>
-        
     </div>
