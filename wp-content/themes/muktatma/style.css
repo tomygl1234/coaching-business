@@ -48,6 +48,7 @@ body {
   font-size: 1.8rem;
   line-height: 2;
 }
+
 /* Headings */
 
 h1,
@@ -1510,6 +1511,36 @@ button:focus {
 .method-section li {
   font-size: 1.4rem; /* Tamaño de los elementos de la lista */
   margin-bottom: 0.5rem; /* Espacio entre elementos de la lista */
+}
+
+/* Coaching Services Section*/
+.coaching-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: space-between;
+  gap: 4rem;
+}
+@media (max-width: 980px) {
+  .coaching-cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .coaching-cards-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.coaching-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--primary);
+  color: var(--secondary);
+  padding: 2rem;
+  border: 2px solid var(--accent);
+}
+.coaching-card .btn {
+  text-align: center;
 }
 
 /* FAQ Section

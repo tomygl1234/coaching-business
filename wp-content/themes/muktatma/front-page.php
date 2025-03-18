@@ -100,7 +100,7 @@ get_header();
             <h2>Mis Servicios</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum odio sit amet varius commodo.</p>
 
-            <div class="coaching-cards-container" style="display: grid; grid-template-columns: repeat(1, 1fr);">
+            <div class="coaching-cards-container">
                 <div class="coaching-card card">
                     <h3>Coaching de Vida</h3>
                     <ul class="feature-list">
