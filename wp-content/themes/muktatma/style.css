@@ -1657,3 +1657,35 @@ button:focus {
   background-color: var(--primary);
   width: 100%;
 }
+
+/* About us PAGE Template*/
+.about-me-container {
+  overflow: auto; /* Para contener elementos flotantes */
+}
+
+.about-me-image-left {
+  float: left;
+  width: 45%; /* Ajusta según necesites */
+  margin-right: 5%;
+  margin-bottom: 20px;
+}
+.about-me-image-right {
+  float: right;
+  width: 45%; /* Ajusta según necesites */
+  margin-left: 5%;
+  margin-bottom: 20px;
+}
+
+.about-me-description {
+  /* No necesitas definir width aquí, el texto fluirá naturalmente */
+}
+
+@media (max-width: 768px) {
+  .about-me-image {
+    float: none;
+    width: 100%;
+  }
+  .about-me-image img {
+    margin: 0 auto;
+  }
+}
