@@ -96,7 +96,7 @@ get_header();
     </section>
     <section class="section commitment-section">
         <div class="container">
-            <h2>Mis Servicios</h2>
+            <h2><?php the_field('my_services_title') ?></h2>
 
             <div class="coaching-cards-container">
                 <?php
@@ -110,8 +110,10 @@ get_header();
                     while ($services_query->have_posts()) : $services_query->the_post(); ?>
                         <div class="coaching-card card">
                             <h3><?php the_title(); ?></h3>
+                            <p class="coaching-card-subtitle"><?php the_field('my_services_card_subtitle') ?></p>
+
                             <p><?php the_content(); ?></p>
-                            <a href="#contact" class="btn btn-secondary">Contáctame</a>
+                            <a href="<?php echo get_field('my_services_card_button_url') ?>" class="btn btn-secondary"><?php echo get_field('home_about_btn_text') ?: "Read more" ?></a>
                         </div>
                     <?php endwhile;
                     wp_reset_postdata();
@@ -119,36 +121,13 @@ get_header();
                     <p>No hay servicios disponibles.</p>
                 <?php endif; ?>
             </div>
-            <div class="payment-section">
-                <h4><?php the_field('payment_section_title'); ?></h4>
-                <p><?php the_field('payment_subtitle_or_brief_description'); ?></p>
-                <ul>
-                    <?php
-                    $args = array(
-                        'post_type' => 'payment_option',
-                        'posts_per_page' => -1,
-                    );
-                    $payment_options = new WP_Query($args);
-                    if ($payment_options->have_posts()) :
-                        while ($payment_options->have_posts()) : $payment_options->the_post(); ?>
-                            <li>
-                                <p><?php the_title(); ?></p>
-                                <p><span><?php the_field('payment_section_percent_quantity_or_prices'); ?></span></p>
-                                <p><?php the_content(); ?></p>
-                            </li>
-                        <?php endwhile;
-                        wp_reset_postdata();
-                    else : ?>
-                        <li>
-                            <p>No hay opciones de pago disponibles.</p>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
+           
         </div>
     </section>
     <!-- End Cocreation adaptative intelligence Section -->
     <?php get_template_part('template-parts/components/faqs'); ?>
+    <!-- Payment Section -->
+    <?php get_template_part('template-parts/components/payment-section'); ?>
 </main>
 <section class="section-contact section">
     <div class="container">

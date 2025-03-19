@@ -1,6 +1,7 @@
 <section class="section faqs-section" aria-label="Frequently Asked Questions">
     <div class="container">
         <div class="accordion" role="tablist">
+            <h2><?php the_field('home_faqs_section_title'); ?></h2>
             <?php
             $args = array(
                 'post_type' => 'faq',
