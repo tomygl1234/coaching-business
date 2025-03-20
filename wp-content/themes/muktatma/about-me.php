@@ -20,6 +20,8 @@ Template Name: About Me
                 <p><?php the_content(); ?></p>
             </div>
         </div>
+        <a href="<?php echo home_url('/contact'); ?>" class="btn btn-primary btn-full text-center">Contact me</a>
     </div>
+    
 </section>
 <?php get_footer(); ?>

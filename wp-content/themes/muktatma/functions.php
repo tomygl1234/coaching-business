@@ -563,3 +563,15 @@ function registrar_post_type_faq()
     register_post_type('faq', $args);
 }
 add_action('init', 'registrar_post_type_faq');
+
+function allow_iframe($allowedposttags) {
+    $allowedposttags['iframe'] = array(
+        'src' => array(),
+        'width' => array(),
+        'height' => array(),
+        'frameborder' => array(),
+        'allowfullscreen' => array(),
+    );
+    return $allowedposttags;
+}
+add_filter('wp_kses_allowed_html', 'allow_iframe');
