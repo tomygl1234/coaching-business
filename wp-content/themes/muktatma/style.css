@@ -1652,29 +1652,70 @@ button:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 2rem;
+  gap: 2rem;
+  padding: 3rem 2rem;
   text-align: center;
+  width: 100%;
 }
+
 .payment-section h4 {
   color: var(--accent);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
+
 .payment-section p {
   color: var(--secondary);
 }
 
-.payment-section ul li p {
-  color: var(--primary);
-  text-align: center !important;
-
+.payment-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 800px;
 }
+
 .payment-section ul {
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  gap: 1rem; /* Espacio entre los elementos de la lista */
+  gap: 1.5rem; /* Espacio entre los elementos de la lista */
+  list-style: none;
+  padding: 0;
+}
+
+.payment-section ul li {
+  background-color: var(--accent);
+  text-align: center;
+  padding: 1.5rem;
+  border: 2px solid var(--secondary);
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.payment-section ul li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.payment-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--primary) !important;
+}
+
+.payment-percentage {
+  font-size: 2rem !important;
+  font-weight: bold;
+  margin: 1rem 0;
+  color: var(--primary) !important;
+}
+
+.payment-content {
+  color: var(--primary) !important;
+  line-height: 1.5;
 }
 
 @media (min-width: 768px) {
@@ -1683,16 +1724,17 @@ button:focus {
     justify-content: space-between;
     text-align: center;
   }
+  
+  .payment-section ul li {
+    flex: 1;
+    max-width: calc(33.333% - 1rem);
+  }
 }
-.payment-section ul li {
-  background-color: var(--accent);
-  text-align: center;
-  padding: 1rem;
-  border: 2px solid var(--secondary);
-}
-.payment-section {
-  background-color: var(--primary);
-  width: 100%;
+
+@media (max-width: 767px) {
+  .payment-section ul li {
+    max-width: 100%;
+  }
 }
 
 /* About us PAGE Template*/
