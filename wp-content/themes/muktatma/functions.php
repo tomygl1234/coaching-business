@@ -575,3 +575,552 @@ function allow_iframe($allowedposttags) {
     return $allowedposttags;
 }
 add_filter('wp_kses_allowed_html', 'allow_iframe');
+
+/**
+ * Register Contact Messages Custom Post Type
+ */
+function muktatma_register_contact_message_post_type() {
+    $labels = array(
+        'name'                  => _x( 'Mensajes de Contacto', 'Post type general name', 'muktatma' ),
+        'singular_name'         => _x( 'Mensaje de Contacto', 'Post type singular name', 'muktatma' ),
+        'menu_name'             => _x( 'Mensajes', 'Admin Menu text', 'muktatma' ),
+        'name_admin_bar'        => _x( 'Mensaje de Contacto', 'Add New on Toolbar', 'muktatma' ),
+        'add_new'               => __( 'Añadir Nuevo', 'muktatma' ),
+        'add_new_item'          => __( 'Añadir Nuevo Mensaje', 'muktatma' ),
+        'new_item'              => __( 'Nuevo Mensaje', 'muktatma' ),
+        'edit_item'             => __( 'Ver Mensaje', 'muktatma' ),
+        'view_item'             => __( 'Ver Mensaje', 'muktatma' ),
+        'all_items'             => __( 'Todos los Mensajes', 'muktatma' ),
+        'search_items'          => __( 'Buscar Mensajes', 'muktatma' ),
+        'not_found'             => __( 'No se encontraron mensajes.', 'muktatma' ),
+        'not_found_in_trash'    => __( 'No hay mensajes en la papelera.', 'muktatma' ),
+    );
+    
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => 30,
+        'menu_icon'          => 'dashicons-email-alt',
+        'supports'           => array( 'title', 'custom-fields' ),
+        'capabilities'       => array(
+            'create_posts'   => 'do_not_allow',
+            'edit_post'      => 'read_post',
+            'edit_posts'     => 'read_posts',
+        ),
+        'map_meta_cap'       => true,
+    );
+    
+    register_post_type( 'contact_message', $args );
+}
+add_action( 'init', 'muktatma_register_contact_message_post_type' );
+
+/**
+ * Add Custom Meta Box for Contact Message Details
+ */
+function muktatma_add_contact_message_meta_box() {
+    add_meta_box(
+        'contact_message_details',
+        __( 'Detalles del Mensaje', 'muktatma' ),
+        'muktatma_contact_message_meta_box_callback',
+        'contact_message',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'muktatma_add_contact_message_meta_box' );
+
+/**
+ * Display Contact Message Meta Box
+ */
+function muktatma_contact_message_meta_box_callback( $post ) {
+    // Recuperar los valores de metadatos
+    $sender_name = get_post_meta( $post->ID, '_sender_name', true );
+    $sender_email = get_post_meta( $post->ID, '_sender_email', true );
+    $subject = get_post_meta( $post->ID, '_subject', true );
+    $message = get_post_meta( $post->ID, '_message', true );
+    
+    // Si no hay mensaje en metadatos, usar el contenido del post
+    if (empty($message)) {
+        $message = $post->post_content;
+    }
+    
+    // Estilo para el contenedor
+    echo '<div class="contact-message-details" style="background: #f9f9f9; padding: 20px; border-radius: 5px; border: 1px solid #e0e0e0;">';
+    
+    // Información del remitente
+    echo '<div class="sender-info" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea;">';
+    
+    // Campo nombre
+    echo '<p><strong>' . __( 'Nombre:', 'muktatma' ) . '</strong> ' . esc_html( $sender_name ) . '</p>';
+    
+    // Campo email
+    echo '<p><strong>' . __( 'Email:', 'muktatma' ) . '</strong> <a href="mailto:' . esc_attr( $sender_email ) . '">' . esc_html( $sender_email ) . '</a></p>';
+    
+    // Campo asunto
+    echo '<p><strong>' . __( 'Asunto:', 'muktatma' ) . '</strong> ' . esc_html( $subject ) . '</p>';
+    
+    // Fecha de recepción
+    echo '<p><strong>' . __( 'Recibido:', 'muktatma' ) . '</strong> ' . get_the_date('d/m/Y H:i:s', $post->ID) . '</p>';
+    
+    echo '</div>';
+    
+    // Campo mensaje
+    echo '<div class="message-content" style="background: #fff; padding: 20px; border-radius: 4px; border: 1px solid #e5e5e5;">';
+    echo '<h3 style="margin-top: 0; color: #23282d; font-size: 16px;">' . __( 'Mensaje:', 'muktatma' ) . '</h3>';
+    echo '<div style="line-height: 1.6;">' . wpautop( esc_html( $message ) ) . '</div>';
+    echo '</div>';
+    
+    echo '</div>';
+    
+    // Botón de respuesta rápida
+    echo '<div class="quick-reply" style="margin-top: 20px;">';
+    echo '<a href="mailto:' . esc_attr( $sender_email ) . '?subject=Re: ' . esc_attr( $subject ) . '" class="button button-primary">' . __( 'Responder por Email', 'muktatma' ) . '</a>';
+    echo '</div>';
+}
+
+/**
+ * Process Contact Form Submission
+ */
+function muktatma_process_contact_form() {
+    // Verificar si es una solicitud de formulario de contacto
+    if ( isset( $_POST['action'] ) && $_POST['action'] === 'contact_form' ) {
+        
+        // Verificar nonce para seguridad
+        if ( ! isset( $_POST['contact_nonce'] ) || ! wp_verify_nonce( $_POST['contact_nonce'], 'contact_form_nonce' ) ) {
+            wp_die( __( 'Verificación de seguridad fallida. Inténtalo de nuevo.', 'muktatma' ) );
+        }
+        
+        // Sanitizar y validar datos
+        $sender_name = isset( $_POST['full_name'] ) ? sanitize_text_field( $_POST['full_name'] ) : '';
+        $sender_email = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+        $subject = isset( $_POST['subject'] ) ? sanitize_text_field( $_POST['subject'] ) : '';
+        $message = isset( $_POST['message'] ) ? sanitize_textarea_field( $_POST['message'] ) : '';
+        
+        // Validación básica
+        if ( empty( $sender_name ) || empty( $sender_email ) || empty( $subject ) || empty( $message ) ) {
+            wp_redirect( add_query_arg( 'contact', 'incomplete', wp_get_referer() ) );
+            exit;
+        }
+        
+        // Crear post del tipo contact_message
+        $post_data = array(
+            'post_title'    => sprintf( __( 'Mensaje de %s', 'muktatma' ), $sender_name ),
+            'post_content'  => $message,
+            'post_status'   => 'publish',
+            'post_type'     => 'contact_message',
+        );
+        
+        $post_id = wp_insert_post( $post_data );
+        
+        if ( $post_id ) {
+            // Guardar metadatos
+            update_post_meta( $post_id, '_sender_name', $sender_name );
+            update_post_meta( $post_id, '_sender_email', $sender_email );
+            update_post_meta( $post_id, '_subject', $subject );
+            update_post_meta( $post_id, '_message', $message );
+            
+            // Opcionalmente enviar email de notificación al administrador
+            $admin_email = get_option( 'admin_email' );
+            $site_name = get_bloginfo( 'name' );
+            $email_subject = sprintf( __( '[%s] Nuevo mensaje de contacto de %s', 'muktatma' ), $site_name, $sender_name );
+            
+            $email_body = sprintf( __( 'Has recibido un nuevo mensaje de contacto en tu sitio %s.', 'muktatma' ), $site_name ) . "\n\n";
+            $email_body .= __( 'Detalles del remitente:', 'muktatma' ) . "\n";
+            $email_body .= __( 'Nombre:', 'muktatma' ) . ' ' . $sender_name . "\n";
+            $email_body .= __( 'Email:', 'muktatma' ) . ' ' . $sender_email . "\n";
+            $email_body .= __( 'Asunto:', 'muktatma' ) . ' ' . $subject . "\n\n";
+            $email_body .= __( 'Mensaje:', 'muktatma' ) . "\n" . $message . "\n\n";
+            $email_body .= __( 'Ver todos los mensajes:', 'muktatma' ) . ' ' . admin_url( 'edit.php?post_type=contact_message' );
+            
+            wp_mail( $admin_email, $email_subject, $email_body );
+            
+            // Redirección con mensaje de éxito
+            wp_redirect( add_query_arg( 'contact', 'success', wp_get_referer() ) );
+            exit;
+        } else {
+            // Redirección con mensaje de error
+            wp_redirect( add_query_arg( 'contact', 'error', wp_get_referer() ) );
+            exit;
+        }
+    }
+}
+add_action( 'admin_post_contact_form', 'muktatma_process_contact_form' );
+add_action( 'admin_post_nopriv_contact_form', 'muktatma_process_contact_form' );
+
+/**
+ * Display Contact Form Status Messages
+ */
+function muktatma_contact_form_status_messages() {
+    if ( isset( $_GET['contact'] ) ) {
+        $status = $_GET['contact'];
+        $message = '';
+        $class = '';
+        
+        switch ( $status ) {
+            case 'success':
+                $message = __( 'Gracias por tu mensaje. Te contactaremos pronto.', 'muktatma' );
+                $class = 'success';
+                break;
+            case 'error':
+                $message = __( 'Ocurrió un error al enviar tu mensaje. Por favor, inténtalo de nuevo.', 'muktatma' );
+                $class = 'error';
+                break;
+            case 'incomplete':
+                $message = __( 'Por favor, completa todos los campos requeridos.', 'muktatma' );
+                $class = 'error';
+                break;
+        }
+        
+        if ( ! empty( $message ) ) {
+            echo '<div class="contact-form-message ' . esc_attr( $class ) . '">' . esc_html( $message ) . '</div>';
+            
+            // Agregar estilos CSS inline
+            echo '<style>
+                .contact-form-message {
+                    padding: 15px;
+                    margin-bottom: 20px;
+                    border-radius: 4px;
+                }
+                .contact-form-message.success {
+                    background-color: #dff0d8;
+                    color: #3c763d;
+                    border: 1px solid #d6e9c6;
+                }
+                .contact-form-message.error {
+                    background-color: #f2dede;
+                    color: #a94442;
+                    border: 1px solid #ebccd1;
+                }
+            </style>';
+        }
+    }
+}
+add_action( 'wp_footer', 'muktatma_contact_form_status_messages' );
+
+/**
+ * Modify Contact Form to Include Action and Nonce
+ */
+function muktatma_modify_contact_form() {
+    ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.setAttribute('action', '<?php echo esc_url(admin_url('admin-post.php')); ?>');
+            
+            // Agregar campo hidden para la acción
+            const actionInput = document.createElement('input');
+            actionInput.setAttribute('type', 'hidden');
+            actionInput.setAttribute('name', 'action');
+            actionInput.setAttribute('value', 'contact_form');
+            contactForm.appendChild(actionInput);
+            
+            // Agregar nonce para seguridad
+            const nonceInput = document.createElement('input');
+            nonceInput.setAttribute('type', 'hidden');
+            nonceInput.setAttribute('name', 'contact_nonce');
+            nonceInput.setAttribute('value', '<?php echo wp_create_nonce('contact_form_nonce'); ?>');
+            contactForm.appendChild(nonceInput);
+        }
+    });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'muktatma_modify_contact_form');
+
+/**
+ * Enqueue Contact Form Styles
+ */
+function muktatma_enqueue_contact_styles() {
+    // Solo cargar en el frontend
+    if (!is_admin()) {
+        wp_enqueue_style('muktatma-contact-form', get_template_directory_uri() . '/assets/css/contact-form.css', array(), '1.0.0');
+    }
+}
+add_action('wp_enqueue_scripts', 'muktatma_enqueue_contact_styles');
+
+/**
+ * Enqueue Admin Contact Styles
+ */
+function muktatma_admin_contact_styles() {
+    $screen = get_current_screen();
+    
+    // Solo cargar en las pantallas de mensajes de contacto
+    if (isset($screen->post_type) && $screen->post_type === 'contact_message') {
+        wp_enqueue_style('muktatma-admin-contact', get_template_directory_uri() . '/assets/css/contact-form.css', array(), '1.0.0');
+    }
+}
+add_action('admin_enqueue_scripts', 'muktatma_admin_contact_styles');
+
+/**
+ * Add Unread Message Count to Admin Menu
+ */
+function muktatma_contact_menu_bubble() {
+    global $menu;
+    
+    // Contar mensajes no leídos (no marcados como 'leído')
+    $unread_count = wp_count_posts('contact_message');
+    $count = 0;
+    
+    // Consideramos mensajes no leídos a los que tienen estado 'publish'
+    if (isset($unread_count->publish)) {
+        $count = $unread_count->publish;
+    }
+    
+    // Si hay mensajes no leídos, mostramos el contador
+    if ($count > 0) {
+        foreach ($menu as $key => $value) {
+            if (isset($value[2]) && $value[2] === 'edit.php?post_type=contact_message') {
+                $menu[$key][0] .= ' <span class="contact-message-count">' . $count . '</span>';
+                break;
+            }
+        }
+    }
+}
+add_action('admin_menu', 'muktatma_contact_menu_bubble');
+
+/**
+ * Mark Contact Message as Read when viewed
+ */
+function muktatma_mark_contact_message_as_read() {
+    global $post;
+    
+    // Verificar si estamos viendo un mensaje de contacto
+    if (is_admin() && isset($post) && $post->post_type === 'contact_message') {
+        // Verificar si ya se ha marcado como leído
+        $is_read = get_post_meta($post->ID, '_message_read', true);
+        
+        // Si no se ha marcado como leído, marcarlo ahora
+        if (!$is_read) {
+            update_post_meta($post->ID, '_message_read', '1');
+            
+            // Opcionalmente, cambia el estado del post a 'leído'
+            // wp_update_post(array(
+            //     'ID' => $post->ID,
+            //     'post_status' => 'read' // Necesitarías registrar este estado personalizado
+            // ));
+        }
+    }
+}
+add_action('current_screen', 'muktatma_mark_contact_message_as_read');
+
+/**
+ * Add Custom Column to Contact Messages List
+ */
+function muktatma_add_contact_message_columns($columns) {
+    $new_columns = array();
+    
+    // Mantener la casilla de verificación
+    if (isset($columns['cb'])) {
+        $new_columns['cb'] = $columns['cb'];
+    }
+    
+    // Columna de estado (no leído/leído)
+    $new_columns['status'] = '<span class="dashicons dashicons-visibility" title="' . __('Estado', 'muktatma') . '"></span>';
+    
+    // Remapear las columnas al orden deseado
+    $new_columns['title'] = __('Remitente', 'muktatma');
+    $new_columns['sender_email'] = __('Email', 'muktatma');
+    $new_columns['subject'] = __('Asunto', 'muktatma');
+    $new_columns['date'] = __('Fecha', 'muktatma');
+    
+    return $new_columns;
+}
+add_filter('manage_contact_message_posts_columns', 'muktatma_add_contact_message_columns');
+
+/**
+ * Display Custom Column Content
+ */
+function muktatma_contact_message_column_content($column, $post_id) {
+    switch ($column) {
+        case 'sender_email':
+            $email = get_post_meta($post_id, '_sender_email', true);
+            if ($email) {
+                echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'subject':
+            $subject = get_post_meta($post_id, '_subject', true);
+            echo esc_html($subject ?: '—');
+            break;
+            
+        case 'status':
+            $is_read = get_post_meta($post_id, '_message_read', true);
+            if ($is_read) {
+                echo '<span class="dashicons dashicons-yes-alt" style="color: #46b450;" title="' . __('Leído', 'muktatma') . '"></span>';
+            } else {
+                echo '<span class="dashicons dashicons-email" style="color: #dc3232;" title="' . __('No leído', 'muktatma') . '"></span>';
+            }
+            break;
+    }
+}
+add_action('manage_contact_message_posts_custom_column', 'muktatma_contact_message_column_content', 10, 2);
+
+/**
+ * Make Custom Columns Sortable
+ */
+function muktatma_contact_message_sortable_columns($columns) {
+    $columns['subject'] = 'subject';
+    $columns['status'] = 'status';
+    return $columns;
+}
+add_filter('manage_edit-contact_message_sortable_columns', 'muktatma_contact_message_sortable_columns');
+
+/**
+ * Customize Contact Message Admin Interface
+ * Remove edit capabilities and make it just a viewing interface
+ */
+function muktatma_contact_message_admin_custom_interface() {
+    global $post_type;
+    
+    // Solo aplicar a nuestro post type
+    if ('contact_message' !== $post_type) {
+        return;
+    }
+
+    // CSS personalizado para ocultar elementos de edición
+    ?>
+    <style type="text/css">
+        /* Ocultar elementos de edición */
+        #edit-slug-box,
+        #post-body-content .postbox,
+        #minor-publishing-actions,
+        #misc-publishing-actions,
+        #titlediv .inside,
+        .row-actions .edit,
+        .row-actions .inline,
+        .page-title-action,
+        #screen-meta-links,
+        .submitbox .deletion {
+            display: none !important;
+        }
+        
+        /* Cambiar etiquetas para reflejar que es solo visualización */
+        #titlediv .components-base-control__label {
+            font-weight: 600;
+        }
+        
+        /* Hacer el título de solo lectura */
+        #title {
+            background-color: #f9f9f9;
+            border-color: #ddd;
+            pointer-events: none;
+        }
+        
+        /* Estilo para la caja principal */
+        #poststuff {
+            margin-top: 20px;
+        }
+        
+        /* Reestilizar el botón de actualizar */
+        #publish {
+            background-color: #f0f0f1;
+            border-color: #0073aa;
+            color: #0073aa;
+        }
+        
+        #publish:hover {
+            background-color: #f0f0f1;
+            border-color: #006799;
+            color: #006799;
+        }
+        
+        /* Cambiar texto del botón */
+        #publish {
+            visibility: hidden;
+        }
+        
+        #publish::after {
+            content: "<?php esc_html_e('Marcar como leído', 'muktatma'); ?>";
+            visibility: visible;
+            display: block;
+            margin-top: -30px;
+        }
+        
+        /* Destacar mensajes no leídos */
+        .contact-message-unread {
+            background-color: #fcf8e3 !important;
+        }
+    </style>
+    <?php
+}
+add_action('admin_head', 'muktatma_contact_message_admin_custom_interface');
+
+/**
+ * Make Title Field Read-Only for Contact Messages
+ */
+function muktatma_make_title_readonly() {
+    global $post_type;
+    
+    if ('contact_message' === $post_type) {
+        ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                // Hacer el título de solo lectura
+                $('#title').attr('readonly', 'readonly');
+                
+                // Cambiar etiqueta del botón de actualizar
+                $('#publish').attr('value', '<?php esc_html_e('Marcar como leído', 'muktatma'); ?>');
+            });
+        </script>
+        <?php
+    }
+}
+add_action('admin_footer-post.php', 'muktatma_make_title_readonly');
+add_action('admin_footer-post-new.php', 'muktatma_make_title_readonly');
+
+/**
+ * Add Custom Row Actions for Contact Messages
+ */
+function muktatma_contact_message_row_actions($actions, $post) {
+    if ('contact_message' === $post->post_type) {
+        // Remover acciones no deseadas
+        unset($actions['edit']);
+        unset($actions['inline hide-if-no-js']);
+        unset($actions['clone']);
+        unset($actions['editinline']);
+        
+        // Cambiar "Ver" por "Abrir mensaje"
+        if (isset($actions['view'])) {
+            $actions['view'] = str_replace(__('View'), __('Abrir mensaje', 'muktatma'), $actions['view']);
+        }
+        
+        // Añadir acción de responder por email
+        $email = get_post_meta($post->ID, '_sender_email', true);
+        $subject = get_post_meta($post->ID, '_subject', true);
+        
+        if ($email) {
+            $actions['reply'] = '<a href="mailto:' . esc_attr($email) . '?subject=Re: ' . esc_attr($subject) . '" class="reply">' . 
+                __('Responder', 'muktatma') . '</a>';
+        }
+    }
+    
+    return $actions;
+}
+add_filter('post_row_actions', 'muktatma_contact_message_row_actions', 10, 2);
+
+/**
+ * Highlight Unread Messages in Admin List
+ */
+function muktatma_highlight_unread_messages($classes, $class, $post_id) {
+    if (get_post_type($post_id) === 'contact_message') {
+        $is_read = get_post_meta($post_id, '_message_read', true);
+        
+        if (!$is_read) {
+            $classes[] = 'contact-message-unread';
+        }
+    }
+    
+    return $classes;
+}
+add_filter('post_class', 'muktatma_highlight_unread_messages', 10, 3);
