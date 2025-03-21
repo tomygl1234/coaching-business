@@ -674,13 +674,22 @@ img {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  align-items: flex-start; /* Cambiar a alineación a la izquierda */
 }
-
+@media (max-width: 480px){
+  .footer-posts{
+    justify-content: center;
+  }
+}
 .footer-post {
   display: grid;
   grid-template-columns: 80px 1fr;
   gap: 1.5rem;
-  align-items: start;
+  place-items: start; /* Mantener contenido alineado a la izquierda */
+  width: 100%; /* Asegurar que el contenedor ocupe el ancho completo */
+  text-align: left; /* Alinear texto a la izquierda */
+  margin: 0 auto;
+
 }
 
 .footer-post-thumbnail img {
@@ -997,6 +1006,11 @@ button:focus {
   margin-bottom: 3rem;
   font-size: 1.6rem;
   position: relative;
+}
+@media (max-width: 768px){
+  .contact-description{
+    margin: 0 auto;
+  }
 }
 
 .contact-logo {

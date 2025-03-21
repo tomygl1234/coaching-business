@@ -1,7 +1,7 @@
 <?php
 get_header();
 ?>
-<main> 
+<main>
 
     <!--All the sections are in the template-parts/components folder for keeping the code clean and modular-->
 
@@ -13,18 +13,20 @@ get_header();
     <?php get_template_part('template-parts/components/about-section'); ?>
     <!-- End About Section -->
 
-    <!-- Approach Section -->
-    <?php get_template_part('template-parts/components/approach-section'); ?>
-    <!-- End Approach Section -->
-
-    <!-- My method-section -->
-    <?php get_template_part('template-parts/components/my-method-section'); ?>
-    <!-- End My method section -->
-
     <!-- My services section -->
     <?php get_template_part('template-parts/components/my-services-section'); ?>
     <!-- End My services section -->
 
+    <?php get_template_part('/template-parts/components/section-banner') ?>
+    <!-- My method-section -->
+    <?php get_template_part('template-parts/components/my-method-section'); ?>
+    <!-- End My method section -->
+
+    <!-- Approach Section -->
+    <?php get_template_part('template-parts/components/approach-section'); ?>
+    <!-- End Approach Section -->
+
+    <?php get_template_part('template-parts/components/section2-banner') ?>
     <!-- FAQs section -->
     <?php get_template_part('template-parts/components/faqs'); ?>
     <!-- End FAQs section -->
