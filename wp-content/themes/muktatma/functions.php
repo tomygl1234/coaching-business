@@ -581,19 +581,19 @@ add_filter('wp_kses_allowed_html', 'allow_iframe');
  */
 function muktatma_register_contact_message_post_type() {
     $labels = array(
-        'name'                  => _x( 'Mensajes de Contacto', 'Post type general name', 'muktatma' ),
-        'singular_name'         => _x( 'Mensaje de Contacto', 'Post type singular name', 'muktatma' ),
-        'menu_name'             => _x( 'Mensajes', 'Admin Menu text', 'muktatma' ),
-        'name_admin_bar'        => _x( 'Mensaje de Contacto', 'Add New on Toolbar', 'muktatma' ),
-        'add_new'               => __( 'Añadir Nuevo', 'muktatma' ),
-        'add_new_item'          => __( 'Añadir Nuevo Mensaje', 'muktatma' ),
-        'new_item'              => __( 'Nuevo Mensaje', 'muktatma' ),
-        'edit_item'             => __( 'Ver Mensaje', 'muktatma' ),
-        'view_item'             => __( 'Ver Mensaje', 'muktatma' ),
-        'all_items'             => __( 'Todos los Mensajes', 'muktatma' ),
-        'search_items'          => __( 'Buscar Mensajes', 'muktatma' ),
-        'not_found'             => __( 'No se encontraron mensajes.', 'muktatma' ),
-        'not_found_in_trash'    => __( 'No hay mensajes en la papelera.', 'muktatma' ),
+        'name'                  => _x( 'Contact Messages', 'Post type general name', 'muktatma' ),
+        'singular_name'         => _x( 'Contact Message', 'Post type singular name', 'muktatma' ),
+        'menu_name'             => _x( 'Messages', 'Admin Menu text', 'muktatma' ),
+        'name_admin_bar'        => _x( 'Contact Message', 'Add New on Toolbar', 'muktatma' ),
+        'add_new'               => __( 'Add New', 'muktatma' ),
+        'add_new_item'          => __( 'Add New Message', 'muktatma' ),
+        'new_item'              => __( 'New Message', 'muktatma' ),
+        'edit_item'             => __( 'Edit Message', 'muktatma' ),
+        'view_item'             => __( 'View Message', 'muktatma' ),
+        'all_items'             => __( 'All Messages', 'muktatma' ),
+        'search_items'          => __( 'Search Messages', 'muktatma' ),
+        'not_found'             => __( 'No messages found.', 'muktatma' ),
+        'not_found_in_trash'    => __( 'No messages in the trash.', 'muktatma' ),
     );
     
     $args = array(
@@ -608,11 +608,9 @@ function muktatma_register_contact_message_post_type() {
         'hierarchical'       => false,
         'menu_position'      => 30,
         'menu_icon'          => 'dashicons-email-alt',
-        'supports'           => array( 'title', 'custom-fields' ),
+        'supports'           => array( 'title', 'editor', 'custom-fields' ),
         'capabilities'       => array(
-            'create_posts'   => 'do_not_allow',
-            'edit_post'      => 'read_post',
-            'edit_posts'     => 'read_posts',
+            'create_posts' => 'do_not_allow', // Disable manual creation of new messages
         ),
         'map_meta_cap'       => true,
     );
@@ -666,22 +664,10 @@ function muktatma_contact_message_meta_box_callback( $post ) {
     // Campo asunto
     echo '<p><strong>' . __( 'Asunto:', 'muktatma' ) . '</strong> ' . esc_html( $subject ) . '</p>';
     
-    // Fecha de recepción
-    echo '<p><strong>' . __( 'Recibido:', 'muktatma' ) . '</strong> ' . get_the_date('d/m/Y H:i:s', $post->ID) . '</p>';
-    
-    echo '</div>';
-    
     // Campo mensaje
-    echo '<div class="message-content" style="background: #fff; padding: 20px; border-radius: 4px; border: 1px solid #e5e5e5;">';
-    echo '<h3 style="margin-top: 0; color: #23282d; font-size: 16px;">' . __( 'Mensaje:', 'muktatma' ) . '</h3>';
-    echo '<div style="line-height: 1.6;">' . wpautop( esc_html( $message ) ) . '</div>';
-    echo '</div>';
-    
-    echo '</div>';
-    
-    // Botón de respuesta rápida
-    echo '<div class="quick-reply" style="margin-top: 20px;">';
-    echo '<a href="mailto:' . esc_attr( $sender_email ) . '?subject=Re: ' . esc_attr( $subject ) . '" class="button button-primary">' . __( 'Responder por Email', 'muktatma' ) . '</a>';
+    echo '<div class="message-content" style="margin-top: 15px; padding: 15px; background: #f9f9f9; border: 1px solid #e5e5e5;">';
+    echo '<strong>' . __( 'Mensaje:', 'muktatma' ) . '</strong>';
+    echo '<div style="margin-top: 10px;">' . wpautop( esc_html( $message ) ) . '</div>';
     echo '</div>';
 }
 
@@ -917,19 +903,15 @@ add_action('current_screen', 'muktatma_mark_contact_message_as_read');
 function muktatma_add_contact_message_columns($columns) {
     $new_columns = array();
     
-    // Mantener la casilla de verificación
-    if (isset($columns['cb'])) {
-        $new_columns['cb'] = $columns['cb'];
+    // Insertar columnas después del título
+    foreach ($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        
+        if ($key === 'title') {
+            $new_columns['sender_email'] = __('Email', 'muktatma');
+            $new_columns['subject'] = __('Asunto', 'muktatma');
+        }
     }
-    
-    // Columna de estado (no leído/leído)
-    $new_columns['status'] = '<span class="dashicons dashicons-visibility" title="' . __('Estado', 'muktatma') . '"></span>';
-    
-    // Remapear las columnas al orden deseado
-    $new_columns['title'] = __('Remitente', 'muktatma');
-    $new_columns['sender_email'] = __('Email', 'muktatma');
-    $new_columns['subject'] = __('Asunto', 'muktatma');
-    $new_columns['date'] = __('Fecha', 'muktatma');
     
     return $new_columns;
 }
@@ -942,185 +924,11 @@ function muktatma_contact_message_column_content($column, $post_id) {
     switch ($column) {
         case 'sender_email':
             $email = get_post_meta($post_id, '_sender_email', true);
-            if ($email) {
-                echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
-            } else {
-                echo '—';
-            }
+            echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
             break;
-            
         case 'subject':
-            $subject = get_post_meta($post_id, '_subject', true);
-            echo esc_html($subject ?: '—');
-            break;
-            
-        case 'status':
-            $is_read = get_post_meta($post_id, '_message_read', true);
-            if ($is_read) {
-                echo '<span class="dashicons dashicons-yes-alt" style="color: #46b450;" title="' . __('Leído', 'muktatma') . '"></span>';
-            } else {
-                echo '<span class="dashicons dashicons-email" style="color: #dc3232;" title="' . __('No leído', 'muktatma') . '"></span>';
-            }
+            echo esc_html(get_post_meta($post_id, '_subject', true));
             break;
     }
 }
 add_action('manage_contact_message_posts_custom_column', 'muktatma_contact_message_column_content', 10, 2);
-
-/**
- * Make Custom Columns Sortable
- */
-function muktatma_contact_message_sortable_columns($columns) {
-    $columns['subject'] = 'subject';
-    $columns['status'] = 'status';
-    return $columns;
-}
-add_filter('manage_edit-contact_message_sortable_columns', 'muktatma_contact_message_sortable_columns');
-
-/**
- * Customize Contact Message Admin Interface
- * Remove edit capabilities and make it just a viewing interface
- */
-function muktatma_contact_message_admin_custom_interface() {
-    global $post_type;
-    
-    // Solo aplicar a nuestro post type
-    if ('contact_message' !== $post_type) {
-        return;
-    }
-
-    // CSS personalizado para ocultar elementos de edición
-    ?>
-    <style type="text/css">
-        /* Ocultar elementos de edición */
-        #edit-slug-box,
-        #post-body-content .postbox,
-        #minor-publishing-actions,
-        #misc-publishing-actions,
-        #titlediv .inside,
-        .row-actions .edit,
-        .row-actions .inline,
-        .page-title-action,
-        #screen-meta-links,
-        .submitbox .deletion {
-            display: none !important;
-        }
-        
-        /* Cambiar etiquetas para reflejar que es solo visualización */
-        #titlediv .components-base-control__label {
-            font-weight: 600;
-        }
-        
-        /* Hacer el título de solo lectura */
-        #title {
-            background-color: #f9f9f9;
-            border-color: #ddd;
-            pointer-events: none;
-        }
-        
-        /* Estilo para la caja principal */
-        #poststuff {
-            margin-top: 20px;
-        }
-        
-        /* Reestilizar el botón de actualizar */
-        #publish {
-            background-color: #f0f0f1;
-            border-color: #0073aa;
-            color: #0073aa;
-        }
-        
-        #publish:hover {
-            background-color: #f0f0f1;
-            border-color: #006799;
-            color: #006799;
-        }
-        
-        /* Cambiar texto del botón */
-        #publish {
-            visibility: hidden;
-        }
-        
-        #publish::after {
-            content: "<?php esc_html_e('Marcar como leído', 'muktatma'); ?>";
-            visibility: visible;
-            display: block;
-            margin-top: -30px;
-        }
-        
-        /* Destacar mensajes no leídos */
-        .contact-message-unread {
-            background-color: #fcf8e3 !important;
-        }
-    </style>
-    <?php
-}
-add_action('admin_head', 'muktatma_contact_message_admin_custom_interface');
-
-/**
- * Make Title Field Read-Only for Contact Messages
- */
-function muktatma_make_title_readonly() {
-    global $post_type;
-    
-    if ('contact_message' === $post_type) {
-        ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                // Hacer el título de solo lectura
-                $('#title').attr('readonly', 'readonly');
-                
-                // Cambiar etiqueta del botón de actualizar
-                $('#publish').attr('value', '<?php esc_html_e('Marcar como leído', 'muktatma'); ?>');
-            });
-        </script>
-        <?php
-    }
-}
-add_action('admin_footer-post.php', 'muktatma_make_title_readonly');
-add_action('admin_footer-post-new.php', 'muktatma_make_title_readonly');
-
-/**
- * Add Custom Row Actions for Contact Messages
- */
-function muktatma_contact_message_row_actions($actions, $post) {
-    if ('contact_message' === $post->post_type) {
-        // Remover acciones no deseadas
-        unset($actions['edit']);
-        unset($actions['inline hide-if-no-js']);
-        unset($actions['clone']);
-        unset($actions['editinline']);
-        
-        // Cambiar "Ver" por "Abrir mensaje"
-        if (isset($actions['view'])) {
-            $actions['view'] = str_replace(__('View'), __('Abrir mensaje', 'muktatma'), $actions['view']);
-        }
-        
-        // Añadir acción de responder por email
-        $email = get_post_meta($post->ID, '_sender_email', true);
-        $subject = get_post_meta($post->ID, '_subject', true);
-        
-        if ($email) {
-            $actions['reply'] = '<a href="mailto:' . esc_attr($email) . '?subject=Re: ' . esc_attr($subject) . '" class="reply">' . 
-                __('Responder', 'muktatma') . '</a>';
-        }
-    }
-    
-    return $actions;
-}
-add_filter('post_row_actions', 'muktatma_contact_message_row_actions', 10, 2);
-
-/**
- * Highlight Unread Messages in Admin List
- */
-function muktatma_highlight_unread_messages($classes, $class, $post_id) {
-    if (get_post_type($post_id) === 'contact_message') {
-        $is_read = get_post_meta($post_id, '_message_read', true);
-        
-        if (!$is_read) {
-            $classes[] = 'contact-message-unread';
-        }
-    }
-    
-    return $classes;
-}
-add_filter('post_class', 'muktatma_highlight_unread_messages', 10, 3);
